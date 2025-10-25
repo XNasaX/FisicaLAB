@@ -88,7 +88,7 @@ Próximas mejoras
 
 ---
 
-Copyright (c) [2025] [NAZA DR]
+Copyright (c) [2025] [XNasaX]
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
