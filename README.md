@@ -10,7 +10,7 @@
   <a href="https://opensource.org/licenses/MIT">
     <img src="https://img.shields.io/badge/License-MIT-yellow.svg?style=for-the-badge" alt="Licencia MIT">
   </a>
-  <img src="https://img.shields.io/badge/Estado-PRE_Alpha_1.0-red?style=for-the-badge" alt="Estado Alpha">
+  <img src="https://img.shields.io/badge/Estado-Alpha_2.0-red?style=for-the-badge" alt="Estado Alpha">
 </p>
 
 <img width="1600" height="896" alt="Banner FisicaLAB" src="https://github.com/user-attachments/assets/e7a26aaf-2e85-4e4b-b192-e821f66abf4e" />
