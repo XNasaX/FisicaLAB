@@ -4,10 +4,12 @@
 ### *Simulador Interactivo de Física en Java*
   
 📌 *Versión Alpha+ 1.0 | Proyecto 100% Java (NetBeans)*
+
 [![JavaScript](https://img.shields.io/badge/JavaScript-F7DF1E?style=for-the-badge&logo=javascript&logoColor=black)](https://developer.mozilla.org/en-US/docs/Web/JavaScript)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg?style=for-the-badge)](https://opensource.org/licenses/MIT)
-<!-- Reemplaza la ruta con tu logo o imagen -->
+
 <img width="1600" height="896" alt="Diseño sin título (2)" src="https://github.com/user-attachments/assets/1ad2290e-b136-4183-a880-26c1e0f2bc00" />
+
 </div>
 
 ---
@@ -91,6 +93,26 @@ Próximas mejoras
 
 ---
 
+📁 Estructura del proyecto
+```
+com.mycompany.fisicalab/
+├── core/
+│   ├── SimuladorFrame.java       # Ventana principal y punto de entrada
+│   ├── MotorSimulacion.java      # Motor físico y cálculos
+│   └── Escenario.java            # Base para escenarios gráficos
+├── ui/
+│   ├── MenuPrincipal.java        # Menú de inicio
+│   ├── SimulacionMRU.java        # Movimiento rectilíneo uniforme
+│   ├── SimulacionCaidaLibre.java # Caída libre
+│   └── SimulacionTiroParabolico.java # Tiro parabólico
+└── utils/
+    ├── UIHelper.java             # Utilidades de interfaz
+    ├── ArchivoDatos.java         # Persistencia de datos
+    ├── Recursos.java             # Gestor de imágenes (placeholder)
+    └── Sonido.java               # Gestor de audio (placeholder)
+```
+---
+
 Copyright (c) [2025] [XNasaX]
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -109,5 +131,35 @@ FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
 AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
 LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
-SOFTWARE.
-<div align="center"> ⭐ *Si te gusta el proyecto, dale una estrella en GitHub* **"La física se aprende experimentando."** </div> ```
+SOFTWARE.## 👨‍💻 DIBUJITOS DESING
+
+**[NAZA_DR - XNasaX DESING]**
+- GitHub: [@XNasaX](https://github.com/XNasaX)
+- Email: naza.dr.off@gmail.com
+
+## 🙏 Agradecimientos
+
+- Inspirado por los principios de física de Newton
+- Gracias a la comunidad educativa por el feedback
+- Agradecimiento especial a profesores de física que validaron el contenido
+- PROFE DE CALCULO - I LOVE YOU FOR ORIUNDO
+
+## ⭐ ¡Apoya el Proyecto!
+
+Si te gusta este proyecto:
+- ⭐ Dale una estrella en GitHub
+- 🔄 Compártelo con otros educadores
+- 🐛 Reporta bugs o sugiere mejoras  
+- 🤝 Contribuye con código
+- 💬 Deja feedback en las Issues
+
+---
+
+*"La física es divertida cuando puedes experimentar con ella interactivamente"*
+
+![Física](https://img.shields.io/badge/Física-Cinemática-blue?style=flat-square)
+![Educación](https://img.shields.io/badge/Educación-Interactiva-green?style=flat-square)  
+![Juego](https://img.shields.io/badge/Juego-Educativo-orange?style=flat-square)
+
+</div>
+
