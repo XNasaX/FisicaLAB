@@ -6,7 +6,7 @@
 📌 *Versión Alpha+ 1.0 | Proyecto 100% Java (NetBeans)*
 
 <!-- Reemplaza la ruta con tu logo o imagen -->
-![Logo del Proyecto](<img width="1600" height="896" alt="Diseño sin título (2)" src="https://github.com/user-attachments/assets/9fd19431-3812-4923-b5af-6ff8c24fc9ef" />)
+<img width="1600" height="896" alt="Diseño sin título (2)" src="https://github.com/user-attachments/assets/1ad2290e-b136-4183-a880-26c1e0f2bc00" />
 
 </div>
 
