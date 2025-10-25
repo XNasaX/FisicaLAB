@@ -112,7 +112,7 @@ com.mycompany.fisicalab/
     └── Sonido.java               # Gestor de audio (placeholder)
 ```
 ---
-
+```
 Copyright (c) [2025] [XNasaX]
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -131,7 +131,8 @@ FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
 AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
 LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
-SOFTWARE.## 👨‍💻 DIBUJITOS DESING
+SOFTWARE.
+```
 
 **[NAZA_DR - XNasaX DESING]**
 - GitHub: [@XNasaX](https://github.com/XNasaX)
