@@ -10,11 +10,17 @@ import java.awt.*;
 public class SimuladorFrame extends JFrame {
     
     public SimuladorFrame() {
-        setTitle("FisicaLab - Simulador de Física");
+        setTitle("FisicaLab - Simulador de Física v2.0");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setSize(1200, 800);
+        
+        // Pantalla completa o maximizada
+        setExtendedState(JFrame.MAXIMIZED_BOTH);
+        setUndecorated(false); // Mantener barra de título
+        
+        // Tamaño mínimo
+        setMinimumSize(new Dimension(1024, 768));
         setLocationRelativeTo(null);
-        setResizable(false);
+        setResizable(true);
         
         // Configurar look and feel del sistema
         try {
