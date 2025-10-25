@@ -29,17 +29,24 @@ public class MenuPrincipal extends JPanel {
         
         // Título
         JLabel titulo = UIHelper.crearTitulo("FISICALAB");
-        titulo.setFont(new Font("Arial", Font.BOLD, 48));
+        titulo.setFont(new Font("Arial", Font.BOLD, 52));
         titulo.setAlignmentX(Component.CENTER_ALIGNMENT);
         titulo.setForeground(UIHelper.COLOR_PRIMARIO);
         
-        JLabel subtitulo = UIHelper.crearSubtitulo("Simulador de Física Interactivo");
+        JLabel subtitulo = UIHelper.crearSubtitulo("Simulador de Física Interactivo v2.0");
         subtitulo.setAlignmentX(Component.CENTER_ALIGNMENT);
+        
+        JLabel version = new JLabel("Alpha 2.0 - Edición Avanzada");
+        version.setFont(new Font("Arial", Font.ITALIC, 14));
+        version.setForeground(new Color(127, 140, 141));
+        version.setAlignmentX(Component.CENTER_ALIGNMENT);
         
         panelCentral.add(titulo);
         panelCentral.add(Box.createRigidArea(new Dimension(0, 10)));
         panelCentral.add(subtitulo);
-        panelCentral.add(Box.createRigidArea(new Dimension(0, 50)));
+        panelCentral.add(Box.createRigidArea(new Dimension(0, 5)));
+        panelCentral.add(version);
+        panelCentral.add(Box.createRigidArea(new Dimension(0, 40)));
         
         // Panel de botones
         JPanel panelBotones = new JPanel(new GridLayout(5, 1, 0, 15));
@@ -81,10 +88,15 @@ public class MenuPrincipal extends JPanel {
         // Panel inferior con información
         JPanel panelInfo = new JPanel(new FlowLayout(FlowLayout.CENTER));
         panelInfo.setOpaque(false);
-        JLabel labelVersion = new JLabel("Versión Alpha+ 1.0 | Cinemática Básica");
+        JLabel labelVersion = new JLabel("Versión Alpha 2.0 | Controles de teclado | Parámetros avanzados | Pantalla completa");
         labelVersion.setFont(new Font("Arial", Font.ITALIC, 12));
         labelVersion.setForeground(new Color(127, 140, 141));
         panelInfo.add(labelVersion);
+        
+        JLabel labelControles = new JLabel(" | ESPACIO: Iniciar | R: Reiniciar | V: Vectores | E: Energía");
+        labelControles.setFont(new Font("Arial", Font.BOLD, 11));
+        labelControles.setForeground(UIHelper.COLOR_PRIMARIO);
+        panelInfo.add(labelControles);
         
         add(panelCentral, BorderLayout.CENTER);
         add(panelInfo, BorderLayout.SOUTH);
