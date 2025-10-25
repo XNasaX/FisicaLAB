@@ -13,7 +13,7 @@
   <img src="https://img.shields.io/badge/Estado-Alpha_2.0-red?style=for-the-badge" alt="Estado Alpha">
 </p>
 
-<img width="1600" height="896" alt="Banner FisicaLAB" src="https://github.com/user-attachments/assets/e7a26aaf-2e85-4e4b-b192-e821f66abf4e" />
+<img width="1600" height="896" alt="PRE ALPHA (1)" src="https://github.com/user-attachments/assets/f6e3764e-2896-4760-99a2-2f27d3d1cca6" />
 
 </div>
 
