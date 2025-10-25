@@ -1,7 +1,7 @@
 <div align="center">
 
 # 🧪 **FisicaLAB**
-### *Simulador Interactivo de Física en Java*
+### *Simulador Interactivo de Física en Java (Alpha 2.0)*
   
 <p align="center">
   <a href="https://www.java.com">
@@ -10,17 +10,18 @@
   <a href="https://opensource.org/licenses/MIT">
     <img src="https://img.shields.io/badge/License-MIT-yellow.svg?style=for-the-badge" alt="Licencia MIT">
   </a>
-  <img src="https://img.shields.io/badge/Estado-Alpha_2.0-red?style=for-the-badge" alt="Estado Alpha">
+  <img src="https://img.shields.io/badge/Estado-Alpha_2.0-red?style=for-the-badge" alt="Estado Alpha 2.0">
 </p>
 
-<img width="1600" height="896" alt="PRE ALPHA (1)" src="https://github.com/user-attachments/assets/f6e3764e-2896-4760-99a2-2f27d3d1cca6" />
+<img width="1600" height="896" alt="PRE ALPHA (1)" src="https://github.com/user-attachments/assets/26c4b4ff-845a-4229-a5c3-319b294d4ce3" />
 
 </div>
 
 ---
-
 ## 📝 Descripción
 **FisicaLAB** es un simulador educativo desarrollado en Java para visualizar y experimentar con fenómenos de cinemática de forma interactiva. Ideal para alumnos, docentes y autodidactas.
+
+¡Ahora en su **versión 2.0**! Esta actualización masiva incluye controles de teclado, un sistema de energía, modo de pantalla completa y parámetros de simulación avanzados como la gravedad variable.
 
 ---
 
@@ -44,81 +45,85 @@ Sigue estos pasos para ejecutar el proyecto en tu máquina local.
 ### Pasos
 1.  Clona este repositorio:
     ```sh
-    git clone [https://github.com/](https://github.com/)[TU_USUARIO]/[NOMBRE_DEL_REPO].git
+    git clone [[https://github.com/](https://github.com/)[TU_USUARIO]/[NOMBRE_DEL_REPO].git](https://github.com/XNasaX/FisicaLAB)
     ```
 2.  Abre **NetBeans IDE**.
 3.  Ve a `File -> Open Project...` y selecciona la carpeta del proyecto que acabas de clonar.
 4.  Busca el archivo `SimuladorFrame.java` (dentro de `com.mycompany.fisicalab.core`).
-5.  Haz clic derecho sobre el archivo y selecciona `Run File`.
+5.  Haz clic derecho sobre el archivo y selecciona `Run File`. La ventana se maximizará automáticamente.
 
 ---
 
-## 🎮 Simulaciones Disponibles
+## 🎮 Controles de Teclado (Nuevo en v2.0)
+Controla las simulaciones directamente desde tu teclado:
 
-- ✅ **Movimiento Rectilíneo Uniforme (MRU)**
-- ✅ **Caída Libre**
-- ✅ **Tiro Parabólico**
+| Tecla | Acción Global |
+| :--- | :--- |
+| **[ ESPACIO ]** | Iniciar / Pausar la simulación |
+| **[ R ]** | Reiniciar la simulación |
+| **[ V ]** | Mostrar / Ocultar vectores |
+
+| Tecla | Caída Libre | Tiro Parabólico |
+| :--- | :--- | :--- |
+| **[ E ]** | Mostrar / Ocultar panel de Energía | - |
+| **[ ↑ ] / [ ↓ ]** | - | Ajustar Ángulo (+/- 1°) |
+| **[ ← ] / [ → ]** | - | Ajustar Velocidad (+/- 1 m/s) |
 
 ---
+
+## ⚙️ Parámetros Globales (Nuevo en v2.0)
+Puedes modificar estos valores en tiempo real:
+
+-   **Gravedad Variable:** Ajusta la gravedad de **$0.1$ a $20.0 m/s^2$**. ¡Prueba simulaciones en la Luna ($1.6 m/s^2$), Marte ($3.7 m/s^2$) o Júpiter ($24.8 m/s^2$)!
+-   **Velocidad de Simulación:** Controla el "delta time" (10-100 ms) para ver simulaciones en cámara lenta (51-100 ms) o rápida (10-29 ms).
+
+---
+
+## 🔬 Simulaciones Disponibles (Actualizadas v2.0)
 
 ### Movimiento Rectilíneo Uniforme (MRU)
-- **Uso:** Ajusta la velocidad con el slider (1-20 m/s).
-- **Observa:** El objeto se mueve a velocidad constante.
-- **Ecuación:** $x = x_0 + v \cdot t$
+-   **Velocidad:** $1$ a $30 m/s$.
+-   **Posición Inicial (x₀):** Define el punto de partida.
+-   **Distancia Objetivo:** Fija una meta visual (10-200 m).
+-   **Modo Infinito:** Activa un bucle continuo.
+-   **Visual:** Barra de progreso y líneas de meta.
 
 ### Caída Libre
-- **Uso:** Configura la altura inicial (10-100 m) y presiona "Soltar".
-- **Observa:** La aceleración gravitacional constante ($9.8 m/s^2$).
-- **Ecuaciones:** $y = y_0 - \frac{1}{2}gt^2$ y $v = g \cdot t$
+-   **Altura Inicial:** Rango ampliado (10-200 m).
+-   **Velocidad Inicial (v₀):** Lanza el objeto hacia arriba (v > 0) o hacia abajo (v < 0).
+-   **Masa:** Configura la masa del objeto (0.1-10 kg).
+-   **NUEVO Sistema de Energía:** Activa con la tecla **[E]** para ver la conservación de Energía Potencial ($E_p$) y Cinética ($E_k$) en tiempo real.
 
 ### Tiro Parabólico
-- **Uso:** Ajusta la velocidad inicial (5-50 m/s) y el ángulo de lanzamiento (0-90°).
-- **Observa:** La trayectoria parabólica. La línea punteada muestra la trayectoria predicha.
-- **Análisis:** Componente horizontal (MRU) y vertical (MRUV).
+-   **Velocidad Inicial y Ángulo:** Ajustables con sliders o con las **flechas del teclado**.
+-   **Altura Inicial (h₀):** Lanza el proyectil desde una altura configurable.
+-   **Información Extendida:** Calcula y muestra el alcance máximo, altura máxima y tiempo de vuelo.
 
 ---
 
 ## 📊 Características
 
-### Implementadas (v1.0)
-- ✅ **Motor de simulación física en tiempo real.**
-- ✅ **Interfaz gráfica moderna con Swing.**
-- ✅ **Controles interactivos** (sliders, botones).
-- ✅ **Visualización de vectores de velocidad.**
-- ✅ **Información en tiempo real** (posición, velocidad, tiempo, altura).
-- ✅ **Botones con diseño redondeado** y paleta de colores profesional.
-- ✅ **Animaciones fluidas (30 FPS).**
+### Implementadas (v2.0)
+-   ✅ **Modo Pantalla Completa** y ventana redimensionable.
+-   ✅ **Controles de Teclado** (KeyBindings) para una simulación interactiva.
+-   ✅ **Parámetros de Gravedad y Velocidad de Simulación** globales.
+-   ✅ **Sistema de Energía (Ep/Ek)** en Caída Libre.
+-   ✅ **Parámetros extendidos** en todas las simulaciones (posición inicial, velocidad inicial, masa, etc.).
+-   ✅ **Controles de UI mejorados:** Sliders, campos de texto para valores exactos y paneles con scroll.
+-   ✅ **Información extendida** (alcance, altura máx, etc.).
+-   ✅ **Motor de simulación física** en tiempo real.
+-   ✅ **Interfaz gráfica moderna** con Swing.
 
-### 🚧 Roadmap (Próximas Mejoras)
-- 🔷 **MRUV** (Movimiento rectilíneo uniformemente variado).
-- 🔷 **Gráficas dinámicas** (exportables a .png).
-- 🔷 Migración opcional a **JavaFX** para animaciones más fluidas.
-- ⏳ **Sistema de recursos** (imágenes y sonidos).
-- ⏳ **Historial de resultados** y exportación a CSV.
-- ⏳ **Más simulaciones** (Estática, Leyes de Newton, Energía).
-- ⏳ **Sistema de guardado/carga** de configuraciones.
+### 🚧 Roadmap (Próximos Pasos v3.0)
+-   🔷 **Gráficas dinámicas** en tiempo real (posición vs. tiempo, etc.).
+-   🔷 **Simulación MRUV** completa.
+-   🔷 **Exportación de datos** a CSV.
+-   🔷 **Modo Comparación** (split screen).
+-   🔷 **Presets de Planetas** (para gravedad).
+-   🔷 **Física más avanzada:** Resistencia del aire y Colisiones.
 
 ---
 
-## 📁 Estructura del Proyecto
-```
-com.mycompany.fisicalab/
-├── core/
-│   ├── SimuladorFrame.java       # Ventana principal y punto de entrada
-│   ├── MotorSimulacion.java      # Motor físico y cálculos
-│   └── Escenario.java            # Base para escenarios gráficos
-├── ui/
-│   ├── MenuPrincipal.java        # Menú de inicio
-│   ├── SimulacionMRU.java        # Movimiento rectilíneo uniforme
-│   ├── SimulacionCaidaLibre.java # Caída libre
-│   └── SimulacionTiroParabolico.java # Tiro parabólico
-└── utils/
-    ├── UIHelper.java             # Utilidades de interfaz
-    ├── ArchivoDatos.java         # Persistencia de datos
-    ├── Recursos.java             # Gestor de imágenes (placeholder)
-    └── Sonido.java               # Gestor de audio (placeholder)
-```
----
 ## 📜 Licencia
 Este proyecto está distribuido bajo la Licencia MIT. Consulta el archivo `LICENSE` en el repositorio para más detalles.
 
