@@ -25,40 +25,35 @@
 ---
 
 # Requisitos
-- **JDK** 8 o superior  
-- **NetBeans IDE** 12 o superior  
+- **JDK** 8 o superior hasta 12  
+- **NetBeans IDE** 12 o superior 27
 - **Librerías externas:** No requiere (solo API estándar de Java)
 
 ---
 
-# Instalación y ejecución
-```bash
-git clone https://github.com/tu-usuario/FisicaLAB.git
-Abre NetBeans
+# 🎮 Uso de las simulaciones
+Movimiento Rectilíneo Uniforme (MRU)
 
-File > Open Project → selecciona la carpeta FisicaLAB
+Ajusta la velocidad con el slider (1-20 m/s)
+Observa cómo el objeto se mueve a velocidad constante
+Analiza la ecuación: x = x₀ + v·t
 
-Ejecuta con Run ▶
+# Caída Libre
 
-Ejemplo de código (Tiro Parabólico)
-java
-Copiar código
-double gravedad = 9.8;            // g (m/s^2)
-double velocidad = 20.0;          // v0 (m/s)
-double angulo = Math.toRadians(45); // θ en radianes
+Configura la altura inicial (10-100 m)
+Presiona "Soltar" para dejar caer el objeto
+Observa la aceleración gravitacional (9.8 m/s²)
+Ecuaciones: y = y₀ - ½g·t² y v = g·t
 
-double vx = velocidad * Math.cos(angulo);
-double vy = velocidad * Math.sin(angulo);
+# Tiro Parabólico
 
-double tiempoVuelo = (2 * vy) / gravedad;
-double alcance = (Math.pow(velocidad, 2) * Math.sin(2 * angulo)) / gravedad;
-double alturaMax = (vy * vy) / (2 * gravedad);
-Interfaz y funcionamiento
-UI con Swing (formularios y controles: sliders, botones y campos numéricos).
+Ajusta la velocidad inicial (5-50 m/s)
+Modifica el ángulo de lanzamiento (0-90°)
+Observa la trayectoria parabólica
+La línea punteada muestra la trayectoria predicha
+Analiza componentes horizontal (MRU) y vertical (MRUV)
 
-Animaciones controladas por javax.swing.Timer.
-
-Visualización en tiempo real de posición, velocidad (Vx, Vy), tiempo y altura máxima.
+---
 
 Próximas mejoras
 🔷 MRUV (Movimiento rectilíneo uniformemente variado)
@@ -67,26 +62,33 @@ Próximas mejoras
 
 🔷 Migración opcional a JavaFX para animaciones más fluidas
 
-Contribuir
-Fork
+---
 
-git checkout -b feature/tu-feature
+## 📊 Características implementadas
 
-git commit -m "Descripción"
+- ✅ **Motor de simulación física en tiempo real**  
+- ✅ **Interfaz gráfica moderna con Swing**  
+- ✅ **Controles interactivos** (sliders, botones)  
+- ✅ **Visualización de vectores de velocidad**  
+- ✅ **Información en tiempo real de la simulación** (posición, velocidad, tiempo, altura)  
+- ✅ **Botones con diseño redondeado**  
+- ✅ **Paleta de colores profesional**  
+- ✅ **Animaciones fluidas (30 FPS)**
 
-git push origin feature/tu-feature
+---
 
-Abre un Pull Request
+## 🚧 Características pendientes (fases futuras)
 
-Licencia
-Este proyecto está bajo la Licencia MIT.
-(Reemplaza [AÑO] [TU NOMBRE] con los tuyos)
+- ⏳ **Sistema de recursos** (imágenes y sonidos)  
+- ⏳ **Historial de resultados**  
+- ⏳ **Más simulaciones** (MRUV, Estática, Leyes de Newton, Energía)  
+- ⏳ **Sistema de guardado/carga de configuraciones**  
+- ⏳ **Exportación de datos a CSV**  
+- ⏳ **Modo comparación de simulaciones**
 
-sql
-Copiar código
-MIT License
+---
 
-Copyright (c) [AÑO] [TU NOMBRE]
+Copyright (c) [2025] [NAZA DR]
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
