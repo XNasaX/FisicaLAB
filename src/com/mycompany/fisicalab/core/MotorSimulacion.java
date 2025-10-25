@@ -14,13 +14,26 @@ public class MotorSimulacion {
     private double deltaTime; // intervalo de tiempo en segundos
     private boolean enEjecucion;
     
-    // Constantes físicas
-    public static final double GRAVEDAD = 9.8; // m/s²
+    // Constantes físicas (modificables)
+    private static double gravedad = 9.8; // m/s²
     
     public MotorSimulacion(int intervaloMs) {
         this.deltaTime = intervaloMs / 1000.0; // convertir ms a segundos
         this.tiempoTranscurrido = 0.0;
         this.enEjecucion = false;
+    }
+    
+    // Getters y setters para gravedad
+    public static double getGravedad() {
+        return gravedad;
+    }
+    
+    public static void setGravedad(double g) {
+        gravedad = g;
+    }
+    
+    public static void resetGravedad() {
+        gravedad = 9.8;
     }
     
     public void iniciar(ActionListener actualizacion) {
@@ -95,7 +108,7 @@ public class MotorSimulacion {
      * Calcula componente vertical en tiro parabólico
      */
     public static double calcularPosicionVertical(double y0, double velocidadY, double tiempo) {
-        return y0 + velocidadY * tiempo - 0.5 * GRAVEDAD * tiempo * tiempo;
+        return y0 + velocidadY * tiempo - 0.5 * gravedad * tiempo * tiempo;
     }
     
     // Getters
