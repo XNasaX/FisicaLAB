@@ -4,13 +4,10 @@
 ### *Simulador Interactivo de Física en Java*
   
 📌 *Versión Alpha+ 1.0 | Proyecto 100% Java (NetBeans)*
-
-<!-- Reemplaza la ruta con tu logo o imagen -->
-<img width="1600" height="896" alt="Diseño sin título (2)" src="https://github.com/user-attachments/assets/1ad2290e-b136-4183-a880-26c1e0f2bc00" />
-
 [![JavaScript](https://img.shields.io/badge/JavaScript-F7DF1E?style=for-the-badge&logo=javascript&logoColor=black)](https://developer.mozilla.org/en-US/docs/Web/JavaScript)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg?style=for-the-badge)](https://opensource.org/licenses/MIT)
-
+<!-- Reemplaza la ruta con tu logo o imagen -->
+<img width="1600" height="896" alt="Diseño sin título (2)" src="https://github.com/user-attachments/assets/1ad2290e-b136-4183-a880-26c1e0f2bc00" />
 </div>
 
 ---
