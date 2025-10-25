@@ -8,7 +8,7 @@
 [![JavaScript](https://img.shields.io/badge/JavaScript-F7DF1E?style=for-the-badge&logo=javascript&logoColor=black)](https://developer.mozilla.org/en-US/docs/Web/JavaScript)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg?style=for-the-badge)](https://opensource.org/licenses/MIT)
 
-<img width="1600" height="896" alt="Diseño sin título (2)" src="https://github.com/user-attachments/assets/1ad2290e-b136-4183-a880-26c1e0f2bc00" />
+<img width="1600" height="896" alt="PRE ALPHA" src="https://github.com/user-attachments/assets/e7a26aaf-2e85-4e4b-b192-e821f66abf4e" />
 
 </div>
 
