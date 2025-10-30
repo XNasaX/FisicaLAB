@@ -1,7 +1,7 @@
 <div align="center">
 
 # 🧪 **FisicaLAB**
-### *Simulador Interactivo de Física en Java (Alpha 2.0)*
+### *Simulador Interactivo de Física en Java (Alpha 3.0)*
   
 <p align="center">
   <a href="https://www.java.com">
