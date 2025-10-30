@@ -183,14 +183,22 @@ public class PanelMision extends JPanel {
             // 2. La simulación evaluaría el resultado
             // 3. Al terminar, mostraría el resultado y volvería a ModoJuego
             
+            // ----- INICIO DE LA CORRECCIÓN -----
+            
+            // 1. CREA UNA NUEVA VARIABLE AQUÍ
+            // Esta variable es "efectivamente final" porque no vuelve a cambiar.
+            JPanel panelParaDialogo = simulacion;
+
             // Mostrar diálogo informativo temporal
             SwingUtilities.invokeLater(() -> {
-                UIHelper.mostrarInfo(simulacion, 
+                // 2. USA LA NUEVA VARIABLE AQUÍ
+                UIHelper.mostrarInfo(panelParaDialogo, 
                     "MISIÓN ACTIVA: " + mision.getNombre() + "\n\n" +
                     "Por ahora, usa la simulación normal.\n" +
                     "En la versión completa, la misión se evaluará automáticamente.\n\n" +
                     "Objetivo: " + mision.getObjetivo());
             });
+            // ----- FIN DE LA CORRECCIÓN -----
         }
     }
 }
