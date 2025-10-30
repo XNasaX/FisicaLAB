@@ -10,7 +10,7 @@
   <a href="https://opensource.org/licenses/MIT">
     <img src="https://img.shields.io/badge/License-MIT-yellow.svg?style=for-the-badge" alt="Licencia MIT">
   </a>
-  <img src="https://img.shields.io/badge/Estado-Alpha_2.0-red?style=for-the-badge" alt="Estado Alpha 2.0">
+  <img src="https://img.shields.io/badge/Estado-Alpha_3.0-red?style=for-the-badge" alt="Estado Alpha 2.0">
 </p>
 
 <img width="1600" height="896" alt="PRE ALPHA (1)" src="https://github.com/user-attachments/assets/26c4b4ff-845a-4229-a5c3-319b294d4ce3" />
