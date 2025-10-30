@@ -2,16 +2,21 @@
 
 # 🧪 **FisicaLAB**
 ### *Simulador Interactivo de Física en Java (Alpha 3.0)*
-  
+
+<h1 align="center">
+  <a href="https://github.com/XNasaX/FisicaLAB">
+    <img src="https://readme-typing-svg.herokuapp.com?font=Fira+Code&duration=2500&pause=700&color=3AE0D8&center=true&vCenter=true&width=435&lines=FisicaLAB+3.0;Simulador+Interactivo+de+Física;Aprende+Jugando%2C+Juega+Aprendiendo!">
+  </a>
+</h1>
+
 <p align="center">
-  <a href="https://www.java.com">
-    <img src="https://img.shields.io/badge/Java-ED8B00?style=for-the-badge&logo=openjdk&logoColor=white" alt="Java">
-  </a>
-  <a href="https://opensource.org/licenses/MIT">
-    <img src="https://img.shields.io/badge/License-MIT-yellow.svg?style=for-the-badge" alt="Licencia MIT">
-  </a>
-  <img src="https://img.shields.io/badge/Estado-Alpha 3.0-red?style=for-the-badge" alt="Estado Alpha 3.0">
+  <a href="https://www.java.com"><img src="https://img.shields.io/badge/Java-ED8B00?style=for-the-badge&logo=openjdk&logoColor=white"></a>
+  <a href="https://opensource.org/licenses/MIT"><img src="https://img.shields.io/badge/License-MIT-yellow?style=for-the-badge"></a>
+  <img src="https://img.shields.io/badge/Estado-Alpha_3.0-red?style=for-the-badge">
 </p>
+
+
+---
 
 <img width="1600" height="896" alt="PRE ALPHA (1)" src="https://github.com/user-attachments/assets/26c4b4ff-845a-4229-a5c3-319b294d4ce3" />
 
@@ -22,6 +27,8 @@
 **FisicaLAB** es un simulador educativo desarrollado en Java para visualizar y experimentar con fenómenos de cinemática de forma interactiva. Ideal para alumnos, docentes y autodidactas.
 
 ¡Bienvenido a la **versión 3.0 Alpha**! Esta gran actualización introduce el **Modo Juego**, un completo **sistema de misiones** con 15 desafíos, puntuación de XP y estrellas, junto con un **Modo Aprende** para la exploración libre.
+
+> 💡 “Aprender física nunca había sido tan divertido”.
 
 ---
 
@@ -68,6 +75,16 @@ La actualización 3.0 se centra en la gamificación del aprendizaje. Ahora puede
 - **Puntuación y Estrellas:** Gana XP y hasta 3 estrellas (⭐⭐⭐) por misión según tu precisión.
 - **Dificultad Progresiva:** Las misiones van desde "Fácil" (😊) hasta "Muy Difícil" (😱).
 - **Interfaz de Misión:** Cada misión tiene una pantalla de información detallada con objetivos, restricciones y puntuación.
+
+Pon a prueba tus conocimientos con 15 misiones únicas:
+- **5 misiones de MRU**
+- **5 misiones de Caída Libre**
+- **5 misiones de Tiro Parabólico**
+
+Características:
+- **Sistema de puntuación XP y estrellas (⭐)**
+- **Dificultad progresiva: Fácil → Muy Difícil**
+- **Pantalla de misión: Objetivos, condiciones y recompensas**
 
 ### 2. 📚 Modo Aprende
 El modo clásico de simulación libre. Perfecto para experimentar sin límites.
@@ -125,16 +142,19 @@ Este proyecto está distribuido bajo la Licencia MIT. Consulta el archivo `LICEN
 
 ## 👨‍💻 Autor y Contacto
 
-**[NAZA_DR - XNasaX DESING]**
+<h3>✨ Desarrollado por <strong>NAZA_DR</strong></h3>
+<h4>🧠 XNasaX DESIGN — Innovación y Física Interactiva</h4>
 
 <p>
-  <a href="https://github.com/XNasaX" target="_blank">
-    <img src="https://img.shields.io/badge/GitHub-XNasaX-181717?style=for-the-badge&logo=github&logoColor=white" alt="GitHub">
-  </a>
-  <a href="mailto:naza.dr.off@gmail.com" target="_blank">
-    <img src="https://img.shields.io/badge/Gmail-D14836?style=for-the-badge&logo=gmail&logoColor=white" alt="Email">
-  </a>
+  <a href="https://github.com/XNasaX" target="_blank">
+    <img src="https://img.shields.io/badge/GitHub-XNasaX-181717?style=for-the-badge&logo=github&logoColor=white" alt="GitHub">
+  </a>
+  <a href="mailto:naza.dr.off@gmail.com" target="_blank">
+    <img src="https://img.shields.io/badge/Email-naza.dr.off%40gmail.com-D14836?style=for-the-badge&logo=gmail&logoColor=white" alt="Email">
+  </a>
 </p>
+
+---
 
 ### 🙏 Agradecimientos
 - Inspirado por los principios de física de Newton.
@@ -152,11 +172,7 @@ Si te gusta este proyecto:
 - 🐛 **Reporta bugs** o sugiere mejoras en la sección de *Issues*.
 - 🤝 **Contribuye** con código.
 
-<div align="center">
-
 *"La física es divertida cuando puedes experimentar con ella interactivamente"*
-
-<br>
 
 ![Física](https://img.shields.io/badge/Física-Cinemática-blue?style=flat-square)
 ![Educación](https://img.shields.io/badge/Educación-Interactiva-green?style=flat-square)
