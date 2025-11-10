@@ -158,7 +158,7 @@ public class PanelMision extends JPanel {
         frame.mostrarSimulacion(modoJuego);
     }
     
-    private void iniciarSimulacion() {
+        private void iniciarSimulacion() {
         // Aquí abrimos la simulación correspondiente
         // Por ahora solo abrimos la simulación normal
         JPanel simulacion = null;
