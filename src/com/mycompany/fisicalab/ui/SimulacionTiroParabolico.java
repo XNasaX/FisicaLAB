@@ -12,8 +12,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Simulación de Tiro Parabólico v2.0
- * Con controles de teclado y parámetros avanzados
+ * Simulación de Tiro Parabólico v2.6
+ * Nueva interfaz reorganizada
  */
 public class SimulacionTiroParabolico extends JPanel {
     
@@ -26,31 +26,27 @@ public class SimulacionTiroParabolico extends JPanel {
     private JLabel labelVelocidad, labelAngulo, labelGravedad, labelVelocidadSim;
     private JTextField txtAlturaInicial;
     
-    private double velocidadInicial = 20.0; // m/s
-    private double angulo = 45.0; // grados
-    private double gravedad = 9.8; // m/s²
-    private double alturaInicial = 0.0; // m
-    private int velocidadSimulacion = 30; // ms
+    private double velocidadInicial = 20.0;
+    private double angulo = 45.0;
+    private double gravedad = 9.8;
+    private double alturaInicial = 0.0;
+    private int velocidadSimulacion = 30;
     
     public SimulacionTiroParabolico(SimuladorFrame frame) {
         this.frame = frame;
         setLayout(new BorderLayout(10, 10));
         setBackground(UIHelper.COLOR_FONDO);
-        setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
         
         motor = new MotorSimulacion(velocidadSimulacion);
-        escenario = new EscenarioTiroParabolico(900, 600);
         
         inicializarComponentes();
         configurarTeclado();
     }
     
     private void configurarTeclado() {
-        // Configurar KeyBindings para controles con teclado
         InputMap inputMap = getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW);
         ActionMap actionMap = getActionMap();
         
-        // Flecha ARRIBA - Aumentar ángulo
         inputMap.put(KeyStroke.getKeyStroke(KeyEvent.VK_UP, 0), "aumentarAngulo");
         actionMap.put("aumentarAngulo", new AbstractAction() {
             @Override
@@ -62,7 +58,6 @@ public class SimulacionTiroParabolico extends JPanel {
             }
         });
         
-        // Flecha ABAJO - Disminuir ángulo
         inputMap.put(KeyStroke.getKeyStroke(KeyEvent.VK_DOWN, 0), "disminuirAngulo");
         actionMap.put("disminuirAngulo", new AbstractAction() {
             @Override
@@ -74,7 +69,6 @@ public class SimulacionTiroParabolico extends JPanel {
             }
         });
         
-        // Flecha DERECHA - Aumentar velocidad
         inputMap.put(KeyStroke.getKeyStroke(KeyEvent.VK_RIGHT, 0), "aumentarVelocidad");
         actionMap.put("aumentarVelocidad", new AbstractAction() {
             @Override
@@ -86,7 +80,6 @@ public class SimulacionTiroParabolico extends JPanel {
             }
         });
         
-        // Flecha IZQUIERDA - Disminuir velocidad
         inputMap.put(KeyStroke.getKeyStroke(KeyEvent.VK_LEFT, 0), "disminuirVelocidad");
         actionMap.put("disminuirVelocidad", new AbstractAction() {
             @Override
@@ -98,7 +91,6 @@ public class SimulacionTiroParabolico extends JPanel {
             }
         });
         
-        // ESPACIO - Iniciar/Pausar
         inputMap.put(KeyStroke.getKeyStroke(KeyEvent.VK_SPACE, 0), "iniciarPausar");
         actionMap.put("iniciarPausar", new AbstractAction() {
             @Override
@@ -111,7 +103,6 @@ public class SimulacionTiroParabolico extends JPanel {
             }
         });
         
-        // R - Reiniciar
         inputMap.put(KeyStroke.getKeyStroke(KeyEvent.VK_R, 0), "reiniciar");
         actionMap.put("reiniciar", new AbstractAction() {
             @Override
@@ -122,58 +113,57 @@ public class SimulacionTiroParabolico extends JPanel {
     }
     
     private void inicializarComponentes() {
-        // Panel superior
-        JPanel panelSuperior = new JPanel(new FlowLayout(FlowLayout.CENTER));
-        panelSuperior.setOpaque(false);
-        JLabel titulo = UIHelper.crearTitulo("Tiro Parabólico v2.0");
-        titulo.setForeground(UIHelper.COLOR_EXITO);
-        panelSuperior.add(titulo);
+        // ===== PANEL SUPERIOR (TÍTULO) =====
+        JPanel panelTitulo = new JPanel(new BorderLayout());
+        panelTitulo.setOpaque(false);
+        panelTitulo.setBorder(BorderFactory.createEmptyBorder(10, 15, 5, 15));
         
-        // Panel de controles con scroll
+        JLabel titulo = new JLabel("Tiro Parabólico v2.0");
+        titulo.setFont(new Font("Arial", Font.BOLD, 20));
+        titulo.setForeground(UIHelper.COLOR_EXITO);
+        panelTitulo.add(titulo, BorderLayout.WEST);
+        
+        // ===== PANEL IZQUIERDO (CONTROLES) =====
         JPanel panelControlesInterno = new JPanel();
         panelControlesInterno.setLayout(new BoxLayout(panelControlesInterno, BoxLayout.Y_AXIS));
         panelControlesInterno.setBackground(Color.WHITE);
-        panelControlesInterno.setBorder(BorderFactory.createEmptyBorder(15, 15, 15, 15));
+        panelControlesInterno.setBorder(BorderFactory.createCompoundBorder(
+            BorderFactory.createLineBorder(new Color(189, 195, 199), 2),
+            BorderFactory.createEmptyBorder(15, 15, 15, 15)
+        ));
         
-        // === VELOCIDAD INICIAL ===
-        JLabel labelTituloVel = new JLabel("Velocidad Inicial (m/s):");
-        labelTituloVel.setFont(new Font("Arial", Font.BOLD, 13));
-        labelTituloVel.setAlignmentX(Component.LEFT_ALIGNMENT);
-        
+        // Velocidad Inicial
+        agregarControl(panelControlesInterno, "Velocidad Inicial (m/s):");
         sliderVelocidad = UIHelper.crearSlider(5, 50, 20);
         sliderVelocidad.setAlignmentX(Component.LEFT_ALIGNMENT);
         sliderVelocidad.addChangeListener(e -> {
             velocidadInicial = sliderVelocidad.getValue();
             labelVelocidad.setText(String.format("v₀ = %.1f m/s", velocidadInicial));
-            escenario.setParametros(velocidadInicial, angulo, alturaInicial);
         });
-        
         labelVelocidad = new JLabel(String.format("v₀ = %.1f m/s", velocidadInicial));
         labelVelocidad.setFont(new Font("Monospaced", Font.PLAIN, 12));
         labelVelocidad.setAlignmentX(Component.LEFT_ALIGNMENT);
+        panelControlesInterno.add(sliderVelocidad);
+        panelControlesInterno.add(labelVelocidad);
+        panelControlesInterno.add(Box.createRigidArea(new Dimension(0, 12)));
         
-        // === ÁNGULO ===
-        JLabel labelTituloAng = new JLabel("Ángulo (grados):");
-        labelTituloAng.setFont(new Font("Arial", Font.BOLD, 13));
-        labelTituloAng.setAlignmentX(Component.LEFT_ALIGNMENT);
-        
+        // Ángulo
+        agregarControl(panelControlesInterno, "Ángulo (grados):");
         sliderAngulo = UIHelper.crearSlider(0, 90, 45);
         sliderAngulo.setAlignmentX(Component.LEFT_ALIGNMENT);
         sliderAngulo.addChangeListener(e -> {
             angulo = sliderAngulo.getValue();
             labelAngulo.setText(String.format("θ = %.1f°", angulo));
-            escenario.setParametros(velocidadInicial, angulo, alturaInicial);
         });
-        
         labelAngulo = new JLabel(String.format("θ = %.1f°", angulo));
         labelAngulo.setFont(new Font("Monospaced", Font.PLAIN, 12));
         labelAngulo.setAlignmentX(Component.LEFT_ALIGNMENT);
+        panelControlesInterno.add(sliderAngulo);
+        panelControlesInterno.add(labelAngulo);
+        panelControlesInterno.add(Box.createRigidArea(new Dimension(0, 12)));
         
-        // === ALTURA INICIAL ===
-        JLabel labelTituloAltura = new JLabel("Altura Inicial (m):");
-        labelTituloAltura.setFont(new Font("Arial", Font.BOLD, 13));
-        labelTituloAltura.setAlignmentX(Component.LEFT_ALIGNMENT);
-        
+        // Altura Inicial
+        agregarControl(panelControlesInterno, "Altura Inicial (m):");
         txtAlturaInicial = UIHelper.crearCampoTexto("0.0");
         txtAlturaInicial.setMaximumSize(new Dimension(Integer.MAX_VALUE, 35));
         txtAlturaInicial.setAlignmentX(Component.LEFT_ALIGNMENT);
@@ -184,13 +174,12 @@ public class SimulacionTiroParabolico extends JPanel {
                 actualizarAlturaInicial();
             }
         });
+        panelControlesInterno.add(txtAlturaInicial);
+        panelControlesInterno.add(Box.createRigidArea(new Dimension(0, 12)));
         
-        // === GRAVEDAD ===
-        JLabel labelTituloGrav = new JLabel("Gravedad (m/s²):");
-        labelTituloGrav.setFont(new Font("Arial", Font.BOLD, 13));
-        labelTituloGrav.setAlignmentX(Component.LEFT_ALIGNMENT);
-        
-        sliderGravedad = new JSlider(1, 200, 98); // 0.1 a 20.0 m/s² (multiplicado por 10)
+        // Gravedad
+        agregarControl(panelControlesInterno, "Gravedad (m/s²):");
+        sliderGravedad = new JSlider(1, 200, 98);
         sliderGravedad.setMajorTickSpacing(50);
         sliderGravedad.setMinorTickSpacing(10);
         sliderGravedad.setPaintTicks(true);
@@ -200,18 +189,16 @@ public class SimulacionTiroParabolico extends JPanel {
             gravedad = sliderGravedad.getValue() / 10.0;
             labelGravedad.setText(String.format("g = %.1f m/s²", gravedad));
             MotorSimulacion.setGravedad(gravedad);
-            escenario.setParametros(velocidadInicial, angulo, alturaInicial);
         });
-        
         labelGravedad = new JLabel(String.format("g = %.1f m/s²", gravedad));
         labelGravedad.setFont(new Font("Monospaced", Font.PLAIN, 12));
         labelGravedad.setAlignmentX(Component.LEFT_ALIGNMENT);
+        panelControlesInterno.add(sliderGravedad);
+        panelControlesInterno.add(labelGravedad);
+        panelControlesInterno.add(Box.createRigidArea(new Dimension(0, 12)));
         
-        // === VELOCIDAD DE SIMULACIÓN ===
-        JLabel labelTituloVelSim = new JLabel("Velocidad Simulación:");
-        labelTituloVelSim.setFont(new Font("Arial", Font.BOLD, 13));
-        labelTituloVelSim.setAlignmentX(Component.LEFT_ALIGNMENT);
-        
+        // Velocidad Simulación
+        agregarControl(panelControlesInterno, "Velocidad Simulación:");
         sliderVelocidadSim = new JSlider(10, 100, 30);
         sliderVelocidadSim.setMajorTickSpacing(30);
         sliderVelocidadSim.setMinorTickSpacing(10);
@@ -220,108 +207,136 @@ public class SimulacionTiroParabolico extends JPanel {
         sliderVelocidadSim.setAlignmentX(Component.LEFT_ALIGNMENT);
         sliderVelocidadSim.addChangeListener(e -> {
             velocidadSimulacion = sliderVelocidadSim.getValue();
-            String velocidad = velocidadSimulacion < 30 ? "Rápida" : 
-                              velocidadSimulacion > 50 ? "Lenta" : "Normal";
-            labelVelocidadSim.setText(String.format("%d ms (%s)", velocidadSimulacion, velocidad));
+            String velocidadStr = velocidadSimulacion < 30 ? "Rápida" : 
+                                 velocidadSimulacion > 50 ? "Lenta" : "Normal";
+            labelVelocidadSim.setText(String.format("%d ms (%s)", velocidadSimulacion, velocidadStr));
         });
-        
         labelVelocidadSim = new JLabel(String.format("%d ms (Normal)", velocidadSimulacion));
         labelVelocidadSim.setFont(new Font("Monospaced", Font.PLAIN, 12));
         labelVelocidadSim.setAlignmentX(Component.LEFT_ALIGNMENT);
+        panelControlesInterno.add(sliderVelocidadSim);
+        panelControlesInterno.add(labelVelocidadSim);
+        panelControlesInterno.add(Box.createVerticalGlue());
         
-        // Botones
-        btnIniciar = UIHelper.crearBotonRedondeado("Lanzar (SPACE)", UIHelper.COLOR_EXITO);
-        btnIniciar.setAlignmentX(Component.LEFT_ALIGNMENT);
-        btnIniciar.setMaximumSize(new Dimension(Integer.MAX_VALUE, 45));
-        btnIniciar.addActionListener(e -> iniciarSimulacion());
+        JScrollPane scrollControles = new JScrollPane(panelControlesInterno);
+        scrollControles.setPreferredSize(new Dimension(320, 600));
+        scrollControles.setBorder(null);
         
-        btnPausar = UIHelper.crearBotonRedondeado("Pausar", UIHelper.COLOR_ADVERTENCIA);
-        btnPausar.setAlignmentX(Component.LEFT_ALIGNMENT);
-        btnPausar.setMaximumSize(new Dimension(Integer.MAX_VALUE, 45));
-        btnPausar.setEnabled(false);
-        btnPausar.addActionListener(e -> pausarSimulacion());
+        // ===== PANEL CENTRAL (SIMULACIÓN) =====
+        escenario = new EscenarioTiroParabolico(900, 500);
+        JPanel panelSimulacion = new JPanel(new BorderLayout());
+        panelSimulacion.setBackground(Color.WHITE);
+        panelSimulacion.setBorder(BorderFactory.createLineBorder(new Color(189, 195, 199), 2));
+        panelSimulacion.add(escenario, BorderLayout.CENTER);
         
-        btnReiniciar = UIHelper.crearBotonRedondeado("Reiniciar (R)", UIHelper.COLOR_SECUNDARIO);
-        btnReiniciar.setAlignmentX(Component.LEFT_ALIGNMENT);
-        btnReiniciar.setMaximumSize(new Dimension(Integer.MAX_VALUE, 45));
-        btnReiniciar.addActionListener(e -> reiniciarSimulacion());
+        // ===== PANEL INFERIOR (BOTONES + INFO) =====
+        JPanel panelInferior = new JPanel(new BorderLayout(10, 0));
+        panelInferior.setOpaque(false);
+        panelInferior.setBorder(BorderFactory.createEmptyBorder(5, 10, 10, 10));
         
-        btnVolver = UIHelper.crearBotonRedondeado("Volver al Menú", UIHelper.COLOR_PELIGRO);
-        btnVolver.setAlignmentX(Component.LEFT_ALIGNMENT);
-        btnVolver.setMaximumSize(new Dimension(Integer.MAX_VALUE, 45));
+        // Botones a la izquierda
+        JPanel panelBotonesIzq = new JPanel(new FlowLayout(FlowLayout.LEFT, 10, 0));
+        panelBotonesIzq.setOpaque(false);
+        
+        btnVolver = crearBoton("Volver al Menú", UIHelper.COLOR_PELIGRO, 160, 50);
         btnVolver.addActionListener(e -> {
             MotorSimulacion.resetGravedad();
             frame.mostrarMenuPrincipal();
         });
+        panelBotonesIzq.add(btnVolver);
         
-        // Información de controles
-        JTextArea textoControles = new JTextArea();
-        textoControles.setText("⌨️ CONTROLES TECLADO:\n" +
-                               "↑ ↓ : Ajustar ángulo\n" +
-                               "← →: Ajustar velocidad\n" +
-                               "ESPACIO: Lanzar/Pausar\n" +
-                               "R: Reiniciar\n\n" +
-                               "🎯 ECUACIONES:\n" +
-                               "vₓ = v₀·cos(θ)\n" +
-                               "vᵧ = v₀·sin(θ)\n" +
-                               "x = vₓ·t\n" +
-                               "y = h₀ + vᵧ·t - ½g·t²");
-        textoControles.setEditable(false);
-        textoControles.setWrapStyleWord(true);
-        textoControles.setLineWrap(true);
-        textoControles.setFont(new Font("Arial", Font.PLAIN, 10));
-        textoControles.setBackground(new Color(236, 240, 241));
-        textoControles.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
-        textoControles.setAlignmentX(Component.LEFT_ALIGNMENT);
+        // Botones en el centro
+        JPanel panelBotonesCentro = new JPanel(new FlowLayout(FlowLayout.CENTER, 10, 0));
+        panelBotonesCentro.setOpaque(false);
         
-        // Agregar componentes
-        panelControlesInterno.add(labelTituloVel);
-        panelControlesInterno.add(Box.createRigidArea(new Dimension(0, 3)));
-        panelControlesInterno.add(sliderVelocidad);
-        panelControlesInterno.add(labelVelocidad);
-        panelControlesInterno.add(Box.createRigidArea(new Dimension(0, 12)));
+        btnIniciar = crearBoton("Lanzar (SPACE)", UIHelper.COLOR_EXITO, 160, 50);
+        btnIniciar.addActionListener(e -> iniciarSimulacion());
         
-        panelControlesInterno.add(labelTituloAng);
-        panelControlesInterno.add(Box.createRigidArea(new Dimension(0, 3)));
-        panelControlesInterno.add(sliderAngulo);
-        panelControlesInterno.add(labelAngulo);
-        panelControlesInterno.add(Box.createRigidArea(new Dimension(0, 12)));
+        btnPausar = crearBoton("Pausar", UIHelper.COLOR_ADVERTENCIA, 130, 50);
+        btnPausar.setEnabled(false);
+        btnPausar.addActionListener(e -> pausarSimulacion());
         
-        panelControlesInterno.add(labelTituloAltura);
-        panelControlesInterno.add(Box.createRigidArea(new Dimension(0, 3)));
-        panelControlesInterno.add(txtAlturaInicial);
-        panelControlesInterno.add(Box.createRigidArea(new Dimension(0, 12)));
+        btnReiniciar = crearBoton("Reiniciar (R)", UIHelper.COLOR_SECUNDARIO, 150, 50);
+        btnReiniciar.addActionListener(e -> reiniciarSimulacion());
         
-        panelControlesInterno.add(labelTituloGrav);
-        panelControlesInterno.add(Box.createRigidArea(new Dimension(0, 3)));
-        panelControlesInterno.add(sliderGravedad);
-        panelControlesInterno.add(labelGravedad);
-        panelControlesInterno.add(Box.createRigidArea(new Dimension(0, 12)));
+        panelBotonesCentro.add(btnIniciar);
+        panelBotonesCentro.add(btnPausar);
+        panelBotonesCentro.add(btnReiniciar);
         
-        panelControlesInterno.add(labelTituloVelSim);
-        panelControlesInterno.add(Box.createRigidArea(new Dimension(0, 3)));
-        panelControlesInterno.add(sliderVelocidadSim);
-        panelControlesInterno.add(labelVelocidadSim);
-        panelControlesInterno.add(Box.createRigidArea(new Dimension(0, 15)));
+        // Panel de información a la derecha
+        JPanel panelInfo = crearPanelInfo();
         
-        panelControlesInterno.add(btnIniciar);
-        panelControlesInterno.add(Box.createRigidArea(new Dimension(0, 8)));
-        panelControlesInterno.add(btnPausar);
-        panelControlesInterno.add(Box.createRigidArea(new Dimension(0, 8)));
-        panelControlesInterno.add(btnReiniciar);
-        panelControlesInterno.add(Box.createRigidArea(new Dimension(0, 15)));
-        panelControlesInterno.add(textoControles);
-        panelControlesInterno.add(Box.createVerticalGlue());
-        panelControlesInterno.add(btnVolver);
+        panelInferior.add(panelBotonesIzq, BorderLayout.WEST);
+        panelInferior.add(panelBotonesCentro, BorderLayout.CENTER);
+        panelInferior.add(panelInfo, BorderLayout.EAST);
         
-        // Scroll para controles
-        JScrollPane scrollControles = new JScrollPane(panelControlesInterno);
-        scrollControles.setPreferredSize(new Dimension(290, 600));
-        scrollControles.setBorder(BorderFactory.createLineBorder(new Color(189, 195, 199), 2));
-        
-        add(panelSuperior, BorderLayout.NORTH);
+        // ===== AGREGAR TODO AL PANEL PRINCIPAL =====
+        add(panelTitulo, BorderLayout.NORTH);
         add(scrollControles, BorderLayout.WEST);
-        add(escenario, BorderLayout.CENTER);
+        add(panelSimulacion, BorderLayout.CENTER);
+        add(panelInferior, BorderLayout.SOUTH);
+    }
+    
+    private void agregarControl(JPanel panel, String texto) {
+        JLabel label = new JLabel(texto);
+        label.setFont(new Font("Arial", Font.BOLD, 13));
+        label.setAlignmentX(Component.LEFT_ALIGNMENT);
+        panel.add(label);
+        panel.add(Box.createRigidArea(new Dimension(0, 5)));
+    }
+    
+    private JButton crearBoton(String texto, Color color, int ancho, int alto) {
+        JButton boton = UIHelper.crearBotonRedondeado(texto, color);
+        boton.setPreferredSize(new Dimension(ancho, alto));
+        return boton;
+    }
+    
+    private JPanel crearPanelInfo() {
+        JPanel panel = new JPanel();
+        panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
+        panel.setBackground(new Color(236, 240, 241));
+        panel.setBorder(BorderFactory.createCompoundBorder(
+            BorderFactory.createLineBorder(new Color(189, 195, 199), 1),
+            BorderFactory.createEmptyBorder(8, 10, 8, 10)
+        ));
+        
+        JLabel labelTitulo = new JLabel("□ CONTROLES:");
+        labelTitulo.setFont(new Font("Arial", Font.BOLD, 11));
+        panel.add(labelTitulo);
+        
+        String[] controles = {
+            "↑ ↓: Ajustar ángulo",
+            "← →: Ajustar velocidad",
+            "ESPACIO: Lanzar/Pausar",
+            "R: Reiniciar"
+        };
+        
+        for (String control : controles) {
+            JLabel label = new JLabel(control);
+            label.setFont(new Font("Arial", Font.PLAIN, 10));
+            panel.add(label);
+        }
+        
+        panel.add(Box.createRigidArea(new Dimension(0, 8)));
+        
+        JLabel labelFormulas = new JLabel("□ TIRO PARABÓLICO:");
+        labelFormulas.setFont(new Font("Arial", Font.BOLD, 11));
+        panel.add(labelFormulas);
+        
+        String[] formulas = {
+            "vₓ = v₀·cos(θ)",
+            "vᵧ = v₀·sin(θ)",
+            "x = vₓ·t",
+            "y = h₀ + vᵧ·t - ½g·t²"
+        };
+        
+        for (String formula : formulas) {
+            JLabel label = new JLabel(formula);
+            label.setFont(new Font("Arial", Font.PLAIN, 10));
+            panel.add(label);
+        }
+        
+        return panel;
     }
     
     private void actualizarAlturaInicial() {
@@ -331,7 +346,6 @@ public class SimulacionTiroParabolico extends JPanel {
             if (valor > 100) valor = 100;
             alturaInicial = valor;
             txtAlturaInicial.setText(String.format("%.1f", alturaInicial));
-            escenario.setParametros(velocidadInicial, angulo, alturaInicial);
         } catch (NumberFormatException ex) {
             txtAlturaInicial.setText("0.0");
             alturaInicial = 0.0;
@@ -339,8 +353,10 @@ public class SimulacionTiroParabolico extends JPanel {
     }
     
     private void iniciarSimulacion() {
-        escenario.setParametros(velocidadInicial, angulo, alturaInicial);
         motor = new MotorSimulacion(velocidadSimulacion);
+        escenario.setParametros(velocidadInicial, angulo, alturaInicial);
+        escenario.setMotor(motor);
+        
         motor.iniciar(e -> {
             escenario.actualizar();
             escenario.repaint();
@@ -348,11 +364,7 @@ public class SimulacionTiroParabolico extends JPanel {
         
         btnIniciar.setEnabled(false);
         btnPausar.setEnabled(true);
-        sliderVelocidad.setEnabled(false);
-        sliderAngulo.setEnabled(false);
-        txtAlturaInicial.setEnabled(false);
-        sliderGravedad.setEnabled(false);
-        sliderVelocidadSim.setEnabled(false);
+        deshabilitarControles(true);
     }
     
     private void pausarSimulacion() {
@@ -374,29 +386,35 @@ public class SimulacionTiroParabolico extends JPanel {
         btnIniciar.setEnabled(true);
         btnPausar.setEnabled(false);
         btnPausar.setText("Pausar");
-        sliderVelocidad.setEnabled(true);
-        sliderAngulo.setEnabled(true);
-        txtAlturaInicial.setEnabled(true);
-        sliderGravedad.setEnabled(true);
-        sliderVelocidadSim.setEnabled(true);
+        deshabilitarControles(false);
     }
     
-    // Escenario interno
+    private void deshabilitarControles(boolean deshabilitar) {
+        sliderVelocidad.setEnabled(!deshabilitar);
+        sliderAngulo.setEnabled(!deshabilitar);
+        txtAlturaInicial.setEnabled(!deshabilitar);
+        sliderGravedad.setEnabled(!deshabilitar);
+        sliderVelocidadSim.setEnabled(!deshabilitar);
+    }
+    
+    // Clase interna EscenarioTiroParabolico
     private class EscenarioTiroParabolico extends Escenario {
         
-        private double posicionX, posicionY;
-        private double velocidadX, velocidadY;
-        private double v0, theta, h0;
-        private double tiempoTotal;
+        private MotorSimulacion motorLocal;
+        private double posicionX, posicionY, velocidadX, velocidadY;
+        private double v0, theta, h0, tiempoTotal;
         private boolean enSuelo;
         private List<Point> trayectoria;
         
         public EscenarioTiroParabolico(int ancho, int alto) {
             super(ancho, alto);
-            this.motor = SimulacionTiroParabolico.this.motor;
             this.escalaPixeles = 8.0;
             this.trayectoria = new ArrayList<>();
             reiniciar();
+        }
+        
+        public void setMotor(MotorSimulacion motor) {
+            this.motorLocal = motor;
         }
         
         public void setParametros(double velocidad, double angulo, double altura) {
@@ -419,11 +437,9 @@ public class SimulacionTiroParabolico extends JPanel {
         
         @Override
         public void actualizar() {
-            if (enSuelo) return;
+            if (enSuelo || motorLocal == null) return;
             
-            double dt = motor.getDeltaTime();
-            tiempoTotal = motor.getTiempoTranscurrido();
-            
+            tiempoTotal = motorLocal.getTiempoTranscurrido();
             posicionX = velocidadX * tiempoTotal;
             posicionY = h0 + velocidadY * tiempoTotal - 0.5 * MotorSimulacion.getGravedad() * tiempoTotal * tiempoTotal;
             
@@ -438,7 +454,7 @@ public class SimulacionTiroParabolico extends JPanel {
             if (posicionY <= 0) {
                 posicionY = 0;
                 enSuelo = true;
-                motor.detener();
+                motorLocal.detener();
             }
         }
         
@@ -474,15 +490,12 @@ public class SimulacionTiroParabolico extends JPanel {
             g2d.setColor(new Color(230, 126, 34));
             int radioArco = 30;
             g2d.drawArc(cannonX - radioArco, cannonY - radioArco, 
-                       radioArco * 2, radioArco * 2, 
-                       0, (int)theta);
+                       radioArco * 2, radioArco * 2, 0, (int)theta);
             
             g2d.setFont(new Font("Arial", Font.BOLD, 12));
-            g2d.drawString(String.format("%.0f°", theta), 
-                          cannonX + 35, cannonY - 10);
+            g2d.drawString(String.format("%.0f°", theta), cannonX + 35, cannonY - 10);
             
-            // Trayectoria predicha
-            if (!motor.isEnEjecucion() && !enSuelo) {
+            if (motorLocal != null && !motorLocal.isEnEjecucion() && !enSuelo) {
                 g2d.setColor(new Color(100, 100, 100, 100));
                 g2d.setStroke(new BasicStroke(2, BasicStroke.CAP_BUTT, 
                                              BasicStroke.JOIN_BEVEL, 0, new float[]{10}, 0));
@@ -512,7 +525,6 @@ public class SimulacionTiroParabolico extends JPanel {
                 g2d.draw(trayectoriaPredicha);
             }
             
-            // Trayectoria recorrida
             if (trayectoria.size() > 1) {
                 g2d.setColor(new Color(231, 76, 60));
                 g2d.setStroke(new BasicStroke(3));
@@ -524,14 +536,12 @@ public class SimulacionTiroParabolico extends JPanel {
                 }
             }
             
-            // Objeto en movimiento
             if (posicionY >= 0) {
                 int objetoX = cannonX + metrosAPixeles(posicionX);
                 int objetoY = sueloY - metrosAPixeles(posicionY);
                 dibujarObjeto(g2d, objetoX, objetoY, 12, new Color(231, 76, 60));
                 
-                if (motor.isEnEjecucion()) {
-                    // Vector velocidad horizontal
+                if (motorLocal != null && motorLocal.isEnEjecucion()) {
                     g2d.setColor(new Color(39, 174, 96));
                     g2d.setStroke(new BasicStroke(3));
                     int vxLargo = (int)(velocidadX * 3);
@@ -542,7 +552,6 @@ public class SimulacionTiroParabolico extends JPanel {
                                 objetoX + vxLargo - 6, objetoY + 4);
                     g2d.drawString("vₓ", objetoX + vxLargo + 5, objetoY - 5);
                     
-                    // Vector velocidad vertical
                     double vyActual = velocidadY - MotorSimulacion.getGravedad() * tiempoTotal;
                     g2d.setColor(new Color(41, 128, 185));
                     int vyLargo = (int)(Math.abs(vyActual) * 3);
@@ -558,7 +567,6 @@ public class SimulacionTiroParabolico extends JPanel {
                 }
             }
             
-            // Calcular datos
             double alcanceMax = (v0 * v0 * Math.sin(2 * Math.toRadians(theta))) / MotorSimulacion.getGravedad();
             double alturaMax = h0 + (v0 * v0 * Math.sin(Math.toRadians(theta)) * Math.sin(Math.toRadians(theta))) 
                               / (2 * MotorSimulacion.getGravedad());
