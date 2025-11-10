@@ -10,7 +10,7 @@ import java.awt.*;
 public class SimuladorFrame extends JFrame {
     
     public SimuladorFrame() {
-        setTitle("FisicaLab - Simulador de Física v2.0");
+        setTitle("FisicaLab - Simulador de Física v3.0");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         
         // Pantalla completa o maximizada
