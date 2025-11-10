@@ -154,6 +154,18 @@ Este proyecto está distribuido bajo la Licencia MIT. Consulta el archivo `LICEN
   </a>
 </p>
 
+<h3>🤝 Colaborador</h3>
+<p>
+  <a href="https://github.com/alexander13mateo-ai" target="_blank">
+    <img src="https://img.shields.io/badge/GitHub-alexander13mateo--ai-181717?style=for-the-badge&logo=github&logoColor=white" alt="GitHub">
+  </a>
+</p>
+
+<h3>🤝 Equipo de Documentación y Testeo</h3>
+<p>
+  Un agradecimiento especial a nuestro equipo de documentación y de testeo por su trabajo en el proyecto.
+</p>
+
 ---
 
 ### 🙏 Agradecimientos
