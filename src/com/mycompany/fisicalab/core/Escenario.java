@@ -1,126 +1,164 @@
 package com.mycompany.fisicalab.core;
 
-import javax.swing.Timer;
-import java.awt.event.ActionListener;
+import javax.swing.*;
+import java.awt.*;
 
 /**
- * Motor de simulación física
- * Gestiona el tiempo y los cálculos físicos básicos
+ * Clase base para todos los escenarios de simulación
+ * Proporciona la estructura común para dibujar y actualizar
  */
-public class MotorSimulacion {
+public abstract class Escenario extends JPanel {
     
-    private Timer timer;
-    private double tiempoTranscurrido; // en segundos
-    private double deltaTime; // intervalo de tiempo en segundos
-    private boolean enEjecucion;
+    protected MotorSimulacion motor;
+    protected int ancho;
+    protected int alto;
+    protected double escalaPixeles; // píxeles por metro
     
-    // Constantes físicas (modificables)
-    private static double gravedad = 9.8; // m/s²
-    
-    public MotorSimulacion(int intervaloMs) {
-        this.deltaTime = intervaloMs / 1000.0; // convertir ms a segundos
-        this.tiempoTranscurrido = 0.0;
-        this.enEjecucion = false;
+    public Escenario(int ancho, int alto) {
+        this.ancho = ancho;
+        this.alto = alto;
+        this.escalaPixeles = 50.0; // 50 píxeles = 1 metro por defecto
+        
+        setPreferredSize(new Dimension(ancho, alto));
+        setBackground(new Color(240, 248, 255)); // Alice Blue
+        setDoubleBuffered(true);
     }
     
-    // Getters y setters para gravedad
-    public static double getGravedad() {
-        return gravedad;
+    @Override
+    protected void paintComponent(Graphics g) {
+        super.paintComponent(g);
+        Graphics2D g2d = (Graphics2D) g;
+        
+        // Activar antialiasing para mejor calidad visual
+        g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, 
+                             RenderingHints.VALUE_ANTIALIAS_ON);
+        g2d.setRenderingHint(RenderingHints.KEY_TEXT_ANTIALIASING, 
+                             RenderingHints.VALUE_TEXT_ANTIALIAS_ON);
+        
+        dibujar(g2d);
     }
     
-    public static void setGravedad(double g) {
-        gravedad = g;
+    /**
+     * Método abstracto para que cada simulación dibuje su contenido
+     */
+    protected abstract void dibujar(Graphics2D g2d);
+    
+    /**
+     * Actualiza el estado de la simulación
+     */
+    public abstract void actualizar();
+    
+    /**
+     * Convierte metros a píxeles
+     */
+    protected int metrosAPixeles(double metros) {
+        return (int)(metros * escalaPixeles);
     }
     
-    public static void resetGravedad() {
-        gravedad = 9.8;
+    /**
+     * Convierte píxeles a metros
+     */
+    protected double pixelesAMetros(int pixeles) {
+        return pixeles / escalaPixeles;
     }
     
-    public void iniciar(ActionListener actualizacion) {
-        if (timer != null) {
-            timer.stop();
+    /**
+     * Dibuja una cuadrícula de referencia
+     */
+    protected void dibujarCuadricula(Graphics2D g2d, int espaciado) {
+        g2d.setColor(new Color(200, 200, 200, 100));
+        g2d.setStroke(new BasicStroke(1));
+        
+        // Líneas verticales
+        for (int x = 0; x < ancho; x += espaciado) {
+            g2d.drawLine(x, 0, x, alto);
         }
         
-        tiempoTranscurrido = 0.0;
-        enEjecucion = true;
-        
-        timer = new Timer((int)(deltaTime * 1000), e -> {
-            if (enEjecucion) {
-                tiempoTranscurrido += deltaTime;
-                actualizacion.actionPerformed(e);
-            }
-        });
-        timer.start();
-    }
-    
-    public void pausar() {
-        enEjecucion = false;
-    }
-    
-    public void reanudar() {
-        enEjecucion = true;
-    }
-    
-    public void detener() {
-        if (timer != null) {
-            timer.stop();
-            enEjecucion = false;
+        // Líneas horizontales
+        for (int y = 0; y < alto; y += espaciado) {
+            g2d.drawLine(0, y, ancho, y);
         }
     }
     
-    public void reiniciar() {
-        tiempoTranscurrido = 0.0;
-        enEjecucion = false;
-    }
-    
-    // Cálculos de cinemática
-    
     /**
-     * Calcula posición en MRU: x = x0 + v*t
+     * Dibuja ejes coordenados
      */
-    public static double calcularPosicionMRU(double posicionInicial, double velocidad, double tiempo) {
-        return posicionInicial + velocidad * tiempo;
-    }
-    
-    /**
-     * Calcula posición en MRUV: x = x0 + v0*t + (1/2)*a*t²
-     */
-    public static double calcularPosicionMRUV(double posicionInicial, double velocidadInicial, 
-                                               double aceleracion, double tiempo) {
-        return posicionInicial + velocidadInicial * tiempo + 0.5 * aceleracion * tiempo * tiempo;
-    }
-    
-    /**
-     * Calcula velocidad en MRUV: v = v0 + a*t
-     */
-    public static double calcularVelocidadMRUV(double velocidadInicial, double aceleracion, double tiempo) {
-        return velocidadInicial + aceleracion * tiempo;
-    }
-    
-    /**
-     * Calcula componente horizontal en tiro parabólico
-     */
-    public static double calcularPosicionHorizontal(double x0, double velocidadX, double tiempo) {
-        return x0 + velocidadX * tiempo;
+    protected void dibujarEjes(Graphics2D g2d, int origenX, int origenY) {
+        g2d.setColor(Color.BLACK);
+        g2d.setStroke(new BasicStroke(2));
+        
+        // Eje X
+        g2d.drawLine(0, origenY, ancho, origenY);
+        
+        // Eje Y
+        g2d.drawLine(origenX, 0, origenX, alto);
+        
+        // Flechas
+        int tamFlecha = 10;
+        // Flecha eje X
+        g2d.drawLine(ancho, origenY, ancho - tamFlecha, origenY - tamFlecha/2);
+        g2d.drawLine(ancho, origenY, ancho - tamFlecha, origenY + tamFlecha/2);
+        
+        // Flecha eje Y
+        g2d.drawLine(origenX, 0, origenX - tamFlecha/2, tamFlecha);
+        g2d.drawLine(origenX, 0, origenX + tamFlecha/2, tamFlecha);
+        
+        // Etiquetas
+        g2d.setFont(new Font("Arial", Font.BOLD, 12));
+        g2d.drawString("X", ancho - 20, origenY - 10);
+        g2d.drawString("Y", origenX + 10, 15);
     }
     
     /**
-     * Calcula componente vertical en tiro parabólico
+     * Dibuja un objeto circular (móvil)
      */
-    public static double calcularPosicionVertical(double y0, double velocidadY, double tiempo) {
-        return y0 + velocidadY * tiempo - 0.5 * gravedad * tiempo * tiempo;
+    protected void dibujarObjeto(Graphics2D g2d, int x, int y, int radio, Color color) {
+        // Sombra
+        g2d.setColor(new Color(0, 0, 0, 50));
+        g2d.fillOval(x - radio + 2, y - radio + 2, radio * 2, radio * 2);
+        
+        // Objeto principal
+        g2d.setColor(color);
+        g2d.fillOval(x - radio, y - radio, radio * 2, radio * 2);
+        
+        // Borde
+        g2d.setColor(color.darker());
+        g2d.setStroke(new BasicStroke(2));
+        g2d.drawOval(x - radio, y - radio, radio * 2, radio * 2);
     }
     
-    // Getters
-    public double getTiempoTranscurrido() {
-        return tiempoTranscurrido;
-    }
-    
-    public double getDeltaTime() {
-        return deltaTime;
-    }
-    
-    public boolean isEnEjecucion() {
-        return enEjecucion;
+    /**
+     * Dibuja información de texto
+     */
+    protected void dibujarInfo(Graphics2D g2d, String[] lineas, int x, int y) {
+        g2d.setFont(new Font("Monospaced", Font.PLAIN, 14));
+        
+        // Fondo semi-transparente
+        FontMetrics fm = g2d.getFontMetrics();
+        int anchoMax = 0;
+        for (String linea : lineas) {
+            anchoMax = Math.max(anchoMax, fm.stringWidth(linea));
+        }
+        
+        int padding = 10;
+        g2d.setColor(new Color(255, 255, 255, 220));
+        g2d.fillRoundRect(x - padding, y - padding, 
+                         anchoMax + 2*padding, 
+                         lineas.length * fm.getHeight() + padding, 
+                         10, 10);
+        
+        // Borde
+        g2d.setColor(new Color(100, 100, 100));
+        g2d.setStroke(new BasicStroke(1));
+        g2d.drawRoundRect(x - padding, y - padding, 
+                         anchoMax + 2*padding, 
+                         lineas.length * fm.getHeight() + padding, 
+                         10, 10);
+        
+        // Texto
+        g2d.setColor(Color.BLACK);
+        for (int i = 0; i < lineas.length; i++) {
+            g2d.drawString(lineas[i], x, y + i * fm.getHeight() + fm.getAscent());
+        }
     }
 }
