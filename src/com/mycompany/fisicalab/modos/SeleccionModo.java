@@ -1,9 +1,14 @@
 package com.mycompany.fisicalab.modos;
 
 import com.mycompany.fisicalab.core.SimuladorFrame;
+import com.mycompany.fisicalab.ui.SimulacionCaidaLibre;
+import com.mycompany.fisicalab.ui.SimulacionMRU;
+import com.mycompany.fisicalab.ui.SimulacionMRUV;
+import com.mycompany.fisicalab.ui.SimulacionTiroParabolico;
+import com.mycompany.fisicalab.ui.SimulacionEstatica; // Importar el nuevo simulador de Estática
 import com.mycompany.fisicalab.utils.UIHelper;
-import javax.swing.*;
 import java.awt.*;
+import javax.swing.*;
 
 /**
  * Panel de selección entre Modo Juego y Modo Aprende
@@ -12,9 +17,11 @@ import java.awt.*;
 public class SeleccionModo extends JPanel {
     
     private SimuladorFrame frame;
+    private String modoActual; // Para saber si estamos en "aprende" o "juego"
     
-    public SeleccionModo(SimuladorFrame frame) {
+    public SeleccionModo(SimuladorFrame frame, String modo) {
         this.frame = frame;
+        this.modoActual = modo;
         setLayout(new BorderLayout());
         setBackground(UIHelper.COLOR_FONDO);
         
@@ -26,15 +33,17 @@ public class SeleccionModo extends JPanel {
         JPanel panelCentral = new JPanel();
         panelCentral.setLayout(new BoxLayout(panelCentral, BoxLayout.Y_AXIS));
         panelCentral.setOpaque(false);
-        panelCentral.setBorder(BorderFactory.createEmptyBorder(80, 50, 50, 50));
+        panelCentral.setBorder(BorderFactory.createEmptyBorder(30, 50, 30, 50));
         
         // Título
-        JLabel titulo = new JLabel("Selecciona tu Modo de Juego");
+        JLabel titulo = new JLabel("Selecciona tu Actividad");
         titulo.setFont(new Font("Arial", Font.BOLD, 36));
         titulo.setForeground(UIHelper.COLOR_PRIMARIO);
         titulo.setAlignmentX(Component.CENTER_ALIGNMENT);
         
-        JLabel subtitulo = new JLabel("¿Cómo quieres aprender física hoy?");
+        JLabel subtitulo = new JLabel(modoActual.equals("aprende") ? 
+                                      "Explora y aprende con nuestras simulaciones." : 
+                                      "Acepta desafíos y gana logros.");
         subtitulo.setFont(new Font("Arial", Font.PLAIN, 18));
         subtitulo.setForeground(new Color(52, 73, 94));
         subtitulo.setAlignmentX(Component.CENTER_ALIGNMENT);
@@ -42,51 +51,35 @@ public class SeleccionModo extends JPanel {
         panelCentral.add(titulo);
         panelCentral.add(Box.createRigidArea(new Dimension(0, 10)));
         panelCentral.add(subtitulo);
-        panelCentral.add(Box.createRigidArea(new Dimension(0, 60)));
-        
-        // Panel con las dos opciones lado a lado
-        JPanel panelOpciones = new JPanel(new GridLayout(1, 2, 40, 0));
-        panelOpciones.setOpaque(false);
-        panelOpciones.setMaximumSize(new Dimension(900, 400));
-        
-        // Tarjeta Modo Juego
-        JPanel tarjetaJuego = crearTarjetaModo(
-            "🎮 MODO JUEGO",
-            "Desafíos y Misiones",
-            new String[]{
-                "✓ 15 misiones emocionantes",
-                "✓ Sistema de puntuación",
-                "✓ Gana estrellas ⭐⭐⭐",
-                "✓ Desbloquea logros",
-                "✓ Compite contra ti mismo"
-            },
-            UIHelper.COLOR_EXITO,
-            "juego"
-        );
-        
-        // Tarjeta Modo Aprende
-        JPanel tarjetaModoAprende = crearTarjetaModo(
-            "📚 MODO APRENDE",
-            "Exploración Libre",
-            new String[]{
-                "✓ Simulaciones sin límites",
-                "✓ Tutoriales interactivos",
-                "✓ Experimentos guiados",
-                "✓ Gráficas en tiempo real",
-                "✓ Exporta tus datos"
-            },
-            UIHelper.COLOR_SECUNDARIO,
-            "aprende"
-        );
-        
-        panelOpciones.add(tarjetaJuego);
-        panelOpciones.add(tarjetaModoAprende);
-        
-        panelCentral.add(panelOpciones);
         panelCentral.add(Box.createRigidArea(new Dimension(0, 40)));
         
+        // Panel de opciones dinámicas
+        JPanel panelOpciones = new JPanel(new GridLayout(0, 2, 20, 20)); // Filas dinámicas, 2 columnas
+        panelOpciones.setOpaque(false);
+        panelOpciones.setMaximumSize(new Dimension(800, 600));
+        
+        if (modoActual.equals("aprende")) {
+            // Opciones para Modo Aprende
+            panelOpciones.add(crearBotonModo("Simulación Libre MRU", UIHelper.COLOR_PRIMARIO, "MRU"));
+            panelOpciones.add(crearBotonModo("Simulación Libre MRUV", new Color(241, 196, 15), "MRUV"));
+            panelOpciones.add(crearBotonModo("Simulación Libre Caída Libre", UIHelper.COLOR_SECUNDARIO, "CAIDA_LIBRE"));
+            panelOpciones.add(crearBotonModo("Simulación Libre Tiro Parabólico", UIHelper.COLOR_EXITO, "TIRO_PARABOLICO"));
+            panelOpciones.add(crearBotonModo("Simulación Libre Estática", new Color(0, 173, 239), "ESTATICA")); // Nuevo botón para Estática
+            panelOpciones.add(crearBotonModo("Ejercicios Aleatorios", new Color(155, 89, 182), "EJERCICIOS_APRENDE"));
+        } else if (modoActual.equals("juego")) {
+            // Opciones para Modo Juego
+            panelOpciones.add(crearBotonModo("Desafíos de MRU", UIHelper.COLOR_PRIMARIO, "DESAFIO_MRU"));
+            panelOpciones.add(crearBotonModo("Desafíos de MRUV", new Color(241, 196, 15), "DESAFIO_MRUV"));
+            panelOpciones.add(crearBotonModo("Desafíos de Caída Libre", UIHelper.COLOR_SECUNDARIO, "DESAFIO_CAIDA_LIBRE"));
+            panelOpciones.add(crearBotonModo("Desafíos de Tiro Parabólico", UIHelper.COLOR_EXITO, "DESAFIO_TIRO_PARABOLICO"));
+            panelOpciones.add(crearBotonModo("Logros y Puntuación", new Color(147, 112, 219), "LOGROS_PUNTUACION"));
+        }
+        
+        panelCentral.add(panelOpciones);
+        panelCentral.add(Box.createRigidArea(new Dimension(0, 30)));
+        
         // Botón volver
-        JButton btnVolver = UIHelper.crearBotonRedondeado("← Volver al Menú Principal", 
+        JButton btnVolver = UIHelper.crearBotonRedondeado("Volver al Menú Principal", 
                                                            new Color(149, 165, 166));
         btnVolver.setAlignmentX(Component.CENTER_ALIGNMENT);
         btnVolver.setPreferredSize(new Dimension(280, 50));
@@ -107,100 +100,48 @@ public class SeleccionModo extends JPanel {
         add(panelVersion, BorderLayout.SOUTH);
     }
     
-    private JPanel crearTarjetaModo(String titulo, String subtitulo, String[] caracteristicas,
-                                    Color colorAccento, String modo) {
-        JPanel tarjeta = new JPanel();
-        tarjeta.setLayout(new BoxLayout(tarjeta, BoxLayout.Y_AXIS));
-        tarjeta.setBackground(Color.WHITE);
-        tarjeta.setBorder(BorderFactory.createCompoundBorder(
-            BorderFactory.createLineBorder(colorAccento, 3),
-            BorderFactory.createEmptyBorder(25, 25, 25, 25)
-        ));
-        
-        // Título
-        JLabel lblTitulo = new JLabel(titulo);
-        lblTitulo.setFont(new Font("Arial", Font.BOLD, 24));
-        lblTitulo.setForeground(colorAccento);
-        lblTitulo.setAlignmentX(Component.CENTER_ALIGNMENT);
-        
-        JLabel lblSubtitulo = new JLabel(subtitulo);
-        lblSubtitulo.setFont(new Font("Arial", Font.ITALIC, 14));
-        lblSubtitulo.setForeground(new Color(127, 140, 141));
-        lblSubtitulo.setAlignmentX(Component.CENTER_ALIGNMENT);
-        
-        tarjeta.add(lblTitulo);
-        tarjeta.add(Box.createRigidArea(new Dimension(0, 5)));
-        tarjeta.add(lblSubtitulo);
-        tarjeta.add(Box.createRigidArea(new Dimension(0, 20)));
-        
-        // Separador
-        JSeparator separador = new JSeparator();
-        separador.setMaximumSize(new Dimension(Integer.MAX_VALUE, 1));
-        tarjeta.add(separador);
-        tarjeta.add(Box.createRigidArea(new Dimension(0, 20)));
-        
-        // Características
-        for (String caracteristica : caracteristicas) {
-            JLabel lblCaract = new JLabel(caracteristica);
-            lblCaract.setFont(new Font("Arial", Font.PLAIN, 14));
-            lblCaract.setAlignmentX(Component.LEFT_ALIGNMENT);
-            tarjeta.add(lblCaract);
-            tarjeta.add(Box.createRigidArea(new Dimension(0, 8)));
-        }
-        
-        tarjeta.add(Box.createVerticalGlue());
-        
-        // Botón de selección
-        JButton btnSeleccionar = new JButton("SELECCIONAR") {
-            @Override
-            protected void paintComponent(Graphics g) {
-                Graphics2D g2d = (Graphics2D) g.create();
-                g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
-                
-                Color colorFondo = colorAccento;
-                if (getModel().isPressed()) {
-                    colorFondo = colorAccento.darker();
-                } else if (getModel().isRollover()) {
-                    colorFondo = colorAccento.brighter();
-                }
-                
-                g2d.setColor(colorFondo);
-                g2d.fillRoundRect(0, 0, getWidth(), getHeight(), 15, 15);
-                
-                g2d.setColor(Color.WHITE);
-                g2d.setFont(new Font("Arial", Font.BOLD, 16));
-                FontMetrics fm = g2d.getFontMetrics();
-                int x = (getWidth() - fm.stringWidth(getText())) / 2;
-                int y = (getHeight() + fm.getAscent() - fm.getDescent()) / 2;
-                g2d.drawString(getText(), x, y);
-                
-                g2d.dispose();
-            }
-        };
-        
-        btnSeleccionar.setFocusPainted(false);
-        btnSeleccionar.setBorderPainted(false);
-        btnSeleccionar.setContentAreaFilled(false);
-        btnSeleccionar.setCursor(new Cursor(Cursor.HAND_CURSOR));
-        btnSeleccionar.setPreferredSize(new Dimension(200, 50));
-        btnSeleccionar.setMaximumSize(new Dimension(Integer.MAX_VALUE, 50));
-        btnSeleccionar.setAlignmentX(Component.CENTER_ALIGNMENT);
-        
-        btnSeleccionar.addActionListener(e -> seleccionarModo(modo));
-        
-        tarjeta.add(Box.createRigidArea(new Dimension(0, 15)));
-        tarjeta.add(btnSeleccionar);
-        
-        return tarjeta;
+    private JButton crearBotonModo(String texto, Color color, String accion) {
+        JButton boton = UIHelper.crearBotonRedondeado(texto, color);
+        boton.setPreferredSize(new Dimension(300, 60));
+        boton.setFont(new Font("Arial", Font.BOLD, 16));
+        boton.addActionListener(e -> ejecutarAccionModo(accion));
+        return boton;
     }
     
-    private void seleccionarModo(String modo) {
-        if (modo.equals("juego")) {
-            ModoJuego modoJuego = new ModoJuego(frame);
-            frame.mostrarSimulacion(modoJuego);
-        } else if (modo.equals("aprende")) {
-            ModoAprende modoAprende = new ModoAprende(frame);
-            frame.mostrarSimulacion(modoAprende);
+    private void ejecutarAccionModo(String accion) {
+        JPanel simulacion = null;
+        switch (accion) {
+            case "MRU":
+                simulacion = new SimulacionMRU(frame);
+                break;
+            case "MRUV":
+                simulacion = new SimulacionMRUV(frame);
+                break;
+            case "CAIDA_LIBRE":
+                simulacion = new SimulacionCaidaLibre(frame);
+                break;
+            case "TIRO_PARABOLICO":
+                simulacion = new SimulacionTiroParabolico(frame);
+                break;
+            case "ESTATICA": // Nuevo caso para Estática
+                simulacion = new SimulacionEstatica(frame);
+                break;
+            case "EJERCICIOS_APRENDE":
+                JOptionPane.showMessageDialog(this, "Ejercicios Aleatorios (BETA)", "Modo Aprende", JOptionPane.INFORMATION_MESSAGE);
+                break;
+            case "DESAFIO_MRU":
+            case "DESAFIO_MRUV":
+            case "DESAFIO_CAIDA_LIBRE":
+            case "DESAFIO_TIRO_PARABOLICO":
+                JOptionPane.showMessageDialog(this, "Desafío de " + accion.replace("DESAFIO_", "") + " (BETA)", "Modo Juego", JOptionPane.INFORMATION_MESSAGE);
+                break;
+            case "LOGROS_PUNTUACION":
+                JOptionPane.showMessageDialog(this, "Logros y Puntuación (BETA)", "Modo Juego", JOptionPane.INFORMATION_MESSAGE);
+                break;
+        }
+        
+        if (simulacion != null) {
+            frame.mostrarSimulacion(simulacion);
         }
     }
 }

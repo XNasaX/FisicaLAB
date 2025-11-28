@@ -113,7 +113,7 @@ public class SimulacionTiroParabolico extends JPanel {
     }
     
     private void inicializarComponentes() {
-        // ===== PANEL SUPERIOR (TÍTULO) =====
+        // ===== PANEL SUPERIOR (TITULO) =====
         JPanel panelTitulo = new JPanel(new BorderLayout());
         panelTitulo.setOpaque(false);
         panelTitulo.setBorder(BorderFactory.createEmptyBorder(10, 15, 5, 15));
@@ -138,24 +138,24 @@ public class SimulacionTiroParabolico extends JPanel {
         sliderVelocidad.setAlignmentX(Component.LEFT_ALIGNMENT);
         sliderVelocidad.addChangeListener(e -> {
             velocidadInicial = sliderVelocidad.getValue();
-            labelVelocidad.setText(String.format("v₀ = %.1f m/s", velocidadInicial));
+            labelVelocidad.setText(String.format("v0 = %.1f m/s", velocidadInicial));
         });
-        labelVelocidad = new JLabel(String.format("v₀ = %.1f m/s", velocidadInicial));
+        labelVelocidad = new JLabel(String.format("v0 = %.1f m/s", velocidadInicial));
         labelVelocidad.setFont(new Font("Monospaced", Font.PLAIN, 12));
         labelVelocidad.setAlignmentX(Component.LEFT_ALIGNMENT);
         panelControlesInterno.add(sliderVelocidad);
         panelControlesInterno.add(labelVelocidad);
         panelControlesInterno.add(Box.createRigidArea(new Dimension(0, 12)));
         
-        // Ángulo
-        agregarControl(panelControlesInterno, "Ángulo (grados):");
+        // Angulo
+        agregarControl(panelControlesInterno, "Angulo (grados):");
         sliderAngulo = UIHelper.crearSlider(0, 90, 45);
         sliderAngulo.setAlignmentX(Component.LEFT_ALIGNMENT);
         sliderAngulo.addChangeListener(e -> {
             angulo = sliderAngulo.getValue();
-            labelAngulo.setText(String.format("θ = %.1f°", angulo));
+            labelAngulo.setText(String.format("theta = %.1f grados", angulo));
         });
-        labelAngulo = new JLabel(String.format("θ = %.1f°", angulo));
+        labelAngulo = new JLabel(String.format("theta = %.1f grados", angulo));
         labelAngulo.setFont(new Font("Monospaced", Font.PLAIN, 12));
         labelAngulo.setAlignmentX(Component.LEFT_ALIGNMENT);
         panelControlesInterno.add(sliderAngulo);
@@ -178,7 +178,7 @@ public class SimulacionTiroParabolico extends JPanel {
         panelControlesInterno.add(Box.createRigidArea(new Dimension(0, 12)));
         
         // Gravedad
-        agregarControl(panelControlesInterno, "Gravedad (m/s²):");
+        agregarControl(panelControlesInterno, "Gravedad (m/s2):");
         sliderGravedad = new JSlider(1, 200, 98);
         sliderGravedad.setMajorTickSpacing(50);
         sliderGravedad.setMinorTickSpacing(10);
@@ -187,10 +187,10 @@ public class SimulacionTiroParabolico extends JPanel {
         sliderGravedad.setAlignmentX(Component.LEFT_ALIGNMENT);
         sliderGravedad.addChangeListener(e -> {
             gravedad = sliderGravedad.getValue() / 10.0;
-            labelGravedad.setText(String.format("g = %.1f m/s²", gravedad));
+            labelGravedad.setText(String.format("g = %.1f m/s2", gravedad));
             MotorSimulacion.setGravedad(gravedad);
         });
-        labelGravedad = new JLabel(String.format("g = %.1f m/s²", gravedad));
+        labelGravedad = new JLabel(String.format("g = %.1f m/s2", gravedad));
         labelGravedad.setFont(new Font("Monospaced", Font.PLAIN, 12));
         labelGravedad.setAlignmentX(Component.LEFT_ALIGNMENT);
         panelControlesInterno.add(sliderGravedad);
@@ -210,6 +210,7 @@ public class SimulacionTiroParabolico extends JPanel {
             String velocidadStr = velocidadSimulacion < 30 ? "Rápida" : 
                                  velocidadSimulacion > 50 ? "Lenta" : "Normal";
             labelVelocidadSim.setText(String.format("%d ms (%s)", velocidadSimulacion, velocidadStr));
+            // No es necesario actualizar el motor aquí, se creará uno nuevo al iniciar/reiniciar
         });
         labelVelocidadSim = new JLabel(String.format("%d ms (Normal)", velocidadSimulacion));
         labelVelocidadSim.setFont(new Font("Monospaced", Font.PLAIN, 12));
@@ -238,7 +239,7 @@ public class SimulacionTiroParabolico extends JPanel {
         JPanel panelBotonesIzq = new JPanel(new FlowLayout(FlowLayout.LEFT, 10, 0));
         panelBotonesIzq.setOpaque(false);
         
-        btnVolver = crearBoton("Volver al Menú", UIHelper.COLOR_PELIGRO, 160, 50);
+        btnVolver = crearBoton("Volver al Menu", UIHelper.COLOR_PELIGRO, 160, 50);
         btnVolver.addActionListener(e -> {
             MotorSimulacion.resetGravedad();
             frame.mostrarMenuPrincipal();
@@ -300,13 +301,13 @@ public class SimulacionTiroParabolico extends JPanel {
             BorderFactory.createEmptyBorder(8, 10, 8, 10)
         ));
         
-        JLabel labelTitulo = new JLabel("□ CONTROLES:");
+        JLabel labelTitulo = new JLabel("CONTROLES:");
         labelTitulo.setFont(new Font("Arial", Font.BOLD, 11));
         panel.add(labelTitulo);
         
         String[] controles = {
-            "↑ ↓: Ajustar ángulo",
-            "← →: Ajustar velocidad",
+            "Arriba/Abajo: Ajustar angulo",
+            "Izquierda/Derecha: Ajustar velocidad",
             "ESPACIO: Lanzar/Pausar",
             "R: Reiniciar"
         };
@@ -319,15 +320,15 @@ public class SimulacionTiroParabolico extends JPanel {
         
         panel.add(Box.createRigidArea(new Dimension(0, 8)));
         
-        JLabel labelFormulas = new JLabel("□ TIRO PARABÓLICO:");
+        JLabel labelFormulas = new JLabel("TIRO PARABOLICO:");
         labelFormulas.setFont(new Font("Arial", Font.BOLD, 11));
         panel.add(labelFormulas);
         
         String[] formulas = {
-            "vₓ = v₀·cos(θ)",
-            "vᵧ = v₀·sin(θ)",
-            "x = vₓ·t",
-            "y = h₀ + vᵧ·t - ½g·t²"
+            "vx = v0*cos(theta)",
+            "vy = v0*sin(theta)",
+            "x = vx*t",
+            "y = h0 + vy*t - 1/2g*t^2"
         };
         
         for (String formula : formulas) {
@@ -353,7 +354,7 @@ public class SimulacionTiroParabolico extends JPanel {
     }
     
     private void iniciarSimulacion() {
-        motor = new MotorSimulacion(velocidadSimulacion);
+        motor = new MotorSimulacion(velocidadSimulacion); // Crear nueva instancia con la velocidad actual
         escenario.setParametros(velocidadInicial, angulo, alturaInicial);
         escenario.setMotor(motor);
         
@@ -379,7 +380,8 @@ public class SimulacionTiroParabolico extends JPanel {
     
     private void reiniciarSimulacion() {
         motor.detener();
-        motor.reiniciar();
+        motor = new MotorSimulacion(velocidadSimulacion); // Crear nueva instancia con la velocidad actual
+        escenario.setMotor(motor); // Actualizar el motor en el escenario
         escenario.reiniciar();
         escenario.repaint();
         
@@ -493,7 +495,7 @@ public class SimulacionTiroParabolico extends JPanel {
                        radioArco * 2, radioArco * 2, 0, (int)theta);
             
             g2d.setFont(new Font("Arial", Font.BOLD, 12));
-            g2d.drawString(String.format("%.0f°", theta), cannonX + 35, cannonY - 10);
+            g2d.drawString(String.format("%.0f grados", theta), cannonX + 35, cannonY - 10);
             
             if (motorLocal != null && !motorLocal.isEnEjecucion() && !enSuelo) {
                 g2d.setColor(new Color(100, 100, 100, 100));
@@ -539,7 +541,7 @@ public class SimulacionTiroParabolico extends JPanel {
             if (posicionY >= 0) {
                 int objetoX = cannonX + metrosAPixeles(posicionX);
                 int objetoY = sueloY - metrosAPixeles(posicionY);
-                dibujarObjeto(g2d, objetoX, objetoY, 12, new Color(231, 76, 60));
+                dibujarObjeto(g2d, objetoX, objetoY, 12, new Color(231, 76, 60), 0); // Añadir el parámetro 'forma' (0 para círculo)
                 
                 if (motorLocal != null && motorLocal.isEnEjecucion()) {
                     g2d.setColor(new Color(39, 174, 96));
@@ -550,7 +552,7 @@ public class SimulacionTiroParabolico extends JPanel {
                                 objetoX + vxLargo - 6, objetoY - 4);
                     g2d.drawLine(objetoX + vxLargo, objetoY, 
                                 objetoX + vxLargo - 6, objetoY + 4);
-                    g2d.drawString("vₓ", objetoX + vxLargo + 5, objetoY - 5);
+                g2d.drawString("vx", objetoX + vxLargo + 5, objetoY - 5);
                     
                     double vyActual = velocidadY - MotorSimulacion.getGravedad() * tiempoTotal;
                     g2d.setColor(new Color(41, 128, 185));
@@ -563,7 +565,7 @@ public class SimulacionTiroParabolico extends JPanel {
                         g2d.drawLine(objetoX, objetoY + direccionY * vyLargo, 
                                     objetoX + 4, objetoY + direccionY * vyLargo - direccionY * 6);
                     }
-                    g2d.drawString("vᵧ", objetoX + 10, objetoY + direccionY * vyLargo / 2);
+                g2d.drawString("vy", objetoX + 10, objetoY + direccionY * vyLargo / 2);
                 }
             }
             
@@ -573,17 +575,17 @@ public class SimulacionTiroParabolico extends JPanel {
             double tiempoVuelo = (velocidadY + Math.sqrt(velocidadY * velocidadY + 2 * MotorSimulacion.getGravedad() * h0)) 
                                 / MotorSimulacion.getGravedad();
             
-            String estado = enSuelo ? " ⚫ IMPACTO" : " 🚀 VOLANDO";
+            String estado = enSuelo ? " IMPACTO" : " VOLANDO";
             String[] info = {
-                "⏱️ Tiempo: " + String.format("%.2f s", tiempoTotal) + estado,
-                "📍 Posición: (" + String.format("%.2f", posicionX) + ", " + String.format("%.2f", Math.max(0, posicionY)) + ") m",
-                "➡️ vₓ: " + String.format("%.2f m/s", velocidadX) + " (constante)",
-                "⬇️ vᵧ: " + String.format("%.2f m/s", velocidadY - MotorSimulacion.getGravedad() * tiempoTotal),
+                "Tiempo: " + String.format("%.2f s", tiempoTotal) + estado,
+                "Posicion: (" + String.format("%.2f", posicionX) + ", " + String.format("%.2f", Math.max(0, posicionY)) + ") m",
+                "vx: " + String.format("%.2f m/s", velocidadX) + " (constante)",
+                "vy: " + String.format("%.2f m/s", velocidadY - MotorSimulacion.getGravedad() * tiempoTotal),
                 "",
-                "🎯 Alcance máx: " + String.format("%.2f m", alcanceMax),
-                "⬆️ Altura máx: " + String.format("%.2f m", alturaMax),
-                "⏰ Tiempo vuelo: " + String.format("%.2f s", tiempoVuelo),
-                "🌍 Gravedad: " + String.format("%.2f m/s²", MotorSimulacion.getGravedad())
+                "Alcance max: " + String.format("%.2f m", alcanceMax),
+                "Altura max: " + String.format("%.2f m", alturaMax),
+                "Tiempo vuelo: " + String.format("%.2f s", tiempoVuelo),
+                "Gravedad: " + String.format("%.2f m/s2", MotorSimulacion.getGravedad())
             };
             dibujarInfo(g2d, info, 20, 20);
         }

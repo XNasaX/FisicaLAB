@@ -3,10 +3,10 @@ package com.mycompany.fisicalab.modos;
 import com.mycompany.fisicalab.core.SimuladorFrame;
 import com.mycompany.fisicalab.juego.*;
 import com.mycompany.fisicalab.utils.UIHelper;
-import javax.swing.*;
 import java.awt.*;
 import java.util.ArrayList;
 import java.util.List;
+import javax.swing.*;
 
 /**
  * Modo Juego - Sistema de misiones y desafíos
@@ -70,11 +70,11 @@ public class ModoJuego extends JPanel {
         JPanel panelStats = new JPanel(new FlowLayout(FlowLayout.RIGHT, 15, 0));
         panelStats.setOpaque(false);
         
-        JLabel lblMisiones = new JLabel(String.format("📊 Misiones: %d/%d", 
+        JLabel lblMisiones = new JLabel(String.format("Misiones: %d/%d", 
                                         misionesCompletadas, todasLasMisiones.size()));
         lblMisiones.setFont(new Font("Arial", Font.BOLD, 14));
         
-        JLabel lblPuntos = new JLabel(String.format("⚡ Puntos: %d XP", puntosTotales));
+        JLabel lblPuntos = new JLabel(String.format("Puntos: %d XP", puntosTotales));
         lblPuntos.setFont(new Font("Arial", Font.BOLD, 14));
         lblPuntos.setForeground(UIHelper.COLOR_ADVERTENCIA);
         
@@ -110,11 +110,11 @@ public class ModoJuego extends JPanel {
         }
         
         // Crear secciones para cada tipo
-        panelCentral.add(crearSeccionMisiones("? Movimiento Rectilíneo Uniforme", misionesMRU, UIHelper.COLOR_PRIMARIO));
+        panelCentral.add(crearSeccionMisiones("Movimiento Rectilineo Uniforme", misionesMRU, UIHelper.COLOR_PRIMARIO));
         panelCentral.add(Box.createRigidArea(new Dimension(0, 15)));
-        panelCentral.add(crearSeccionMisiones("🪂 Caída Libre", misionesCaida, UIHelper.COLOR_SECUNDARIO));
+        panelCentral.add(crearSeccionMisiones("Caida Libre", misionesCaida, UIHelper.COLOR_SECUNDARIO));
         panelCentral.add(Box.createRigidArea(new Dimension(0, 15)));
-        panelCentral.add(crearSeccionMisiones("🎯 Tiro Parabólico", misionesTiro, UIHelper.COLOR_EXITO));
+        panelCentral.add(crearSeccionMisiones("Tiro Parabolico", misionesTiro, UIHelper.COLOR_EXITO));
         
         JScrollPane scrollPane = new JScrollPane(panelCentral);
         scrollPane.setBorder(null);
@@ -124,14 +124,13 @@ public class ModoJuego extends JPanel {
         JPanel panelInferior = new JPanel(new FlowLayout(FlowLayout.LEFT, 15, 10));
         panelInferior.setOpaque(false);
         
-        JButton btnVolver = UIHelper.crearBotonRedondeado("← Volver", UIHelper.COLOR_PELIGRO);
+        JButton btnVolver = UIHelper.crearBotonRedondeado("Volver", UIHelper.COLOR_PELIGRO);
         btnVolver.setPreferredSize(new Dimension(140, 45));
         btnVolver.addActionListener(e -> {
-            SeleccionModo seleccion = new SeleccionModo(frame);
-            frame.mostrarSimulacion(seleccion);
+            frame.mostrarMenuPrincipal(); // Volver directamente al menú principal
         });
         
-        JButton btnEstadisticas = UIHelper.crearBotonRedondeado("📊 Estadísticas", new Color(149, 165, 166));
+        JButton btnEstadisticas = UIHelper.crearBotonRedondeado("Estadisticas", new Color(149, 165, 166));
         btnEstadisticas.setPreferredSize(new Dimension(160, 45));
         btnEstadisticas.addActionListener(e -> mostrarEstadisticas());
         
@@ -257,7 +256,7 @@ public class ModoJuego extends JPanel {
     
     private void mostrarEstadisticas() {
         StringBuilder stats = new StringBuilder();
-        stats.append("📊 ESTADÍSTICAS GENERALES\n\n");
+        stats.append("ESTADISTICAS GENERALES\n\n");
         stats.append(String.format("Misiones completadas: %d/%d\n", misionesCompletadas, todasLasMisiones.size()));
         stats.append(String.format("Puntos totales: %d XP\n\n", puntosTotales));
         

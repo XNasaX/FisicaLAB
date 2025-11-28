@@ -1,6 +1,7 @@
 package com.mycompany.fisicalab.core;
 
 import com.mycompany.fisicalab.ui.MenuPrincipal;
+import com.mycompany.fisicalab.utils.UserManager; // Importar UserManager
 import javax.swing.*;
 import java.awt.*;
 
@@ -9,9 +10,13 @@ import java.awt.*;
  */
 public class SimuladorFrame extends JFrame {
     
+    private UserManager userManager; // Instancia de UserManager
+    
     public SimuladorFrame() {
         setTitle("FisicaLab - Simulador de Física v3.0");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        
+        userManager = UserManager.getInstance(); // Obtener la instancia Singleton
         
         // Pantalla completa o maximizada
         setExtendedState(JFrame.MAXIMIZED_BOTH);
@@ -35,7 +40,7 @@ public class SimuladorFrame extends JFrame {
     
     public void mostrarMenuPrincipal() {
         getContentPane().removeAll();
-        MenuPrincipal menu = new MenuPrincipal(this);
+        MenuPrincipal menu = new MenuPrincipal(this, userManager); // Pasar userManager
         setContentPane(menu);
         revalidate();
         repaint();

@@ -7,10 +7,11 @@ import com.mycompany.fisicalab.utils.UIHelper;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
+import java.util.Random;
 
 /**
  * Simulación de Movimiento Rectilíneo Uniforme (MRU) v3.0
- * Nueva interfaz reorganizada
+ * Nueva interfaz reorganizada con estilos únicos y objetos variados.
  */
 public class SimulacionMRU extends JPanel {
     
@@ -77,12 +78,12 @@ public class SimulacionMRU extends JPanel {
     }
     
     private void inicializarComponentes() {
-        // ===== PANEL SUPERIOR (TÍTULO) =====
+        // ===== PANEL SUPERIOR (TITULO) =====
         JPanel panelTitulo = new JPanel(new BorderLayout());
         panelTitulo.setOpaque(false);
         panelTitulo.setBorder(BorderFactory.createEmptyBorder(10, 15, 5, 15));
         
-        JLabel titulo = new JLabel("Movimiento Rectilíneo Uniforme v2.0");
+        JLabel titulo = new JLabel("Movimiento Rectilineo Uniforme v3.0");
         titulo.setFont(new Font("Arial", Font.BOLD, 20));
         titulo.setForeground(UIHelper.COLOR_PRIMARIO);
         panelTitulo.add(titulo, BorderLayout.WEST);
@@ -287,14 +288,14 @@ public class SimulacionMRU extends JPanel {
         
         panel.add(Box.createRigidArea(new Dimension(0, 8)));
         
-        JLabel labelMru = new JLabel("□ MRU:");
+        JLabel labelMru = new JLabel("MRU:");
         labelMru.setFont(new Font("Arial", Font.BOLD, 11));
         panel.add(labelMru);
         
         String[] formulas = {
             "• Velocidad constante",
             "• Aceleración = 0",
-            "• x = x₀ + v·t",
+            "• x = x0 + v*t",
             "• Movimiento uniforme"
         };
         
@@ -384,10 +385,20 @@ public class SimulacionMRU extends JPanel {
         private double posicionX, velocidadActual, tiempoTotal;
         private double x0, distancia, tiempoLimite;
         private boolean mostrarVectores, modoInfinito, objetivoAlcanzado;
+        private int formaObjeto; // 0: círculo, 1: cuadrado, 2: triángulo
+        private Color colorObjeto;
+        private Random random;
         
         public EscenarioMRU(int ancho, int alto) {
             super(ancho, alto);
+            random = new Random();
+            seleccionarEstiloAleatorio();
             reiniciar();
+        }
+        
+        private void seleccionarEstiloAleatorio() {
+            formaObjeto = random.nextInt(3); // 0, 1 o 2
+            colorObjeto = new Color(random.nextInt(256), random.nextInt(256), random.nextInt(256));
         }
         
         public void setMotor(MotorSimulacion motor) {
@@ -408,6 +419,7 @@ public class SimulacionMRU extends JPanel {
             posicionX = x0;
             tiempoTotal = 0;
             objetivoAlcanzado = false;
+            seleccionarEstiloAleatorio(); // Nuevo estilo al reiniciar
         }
         
         @Override
@@ -434,6 +446,12 @@ public class SimulacionMRU extends JPanel {
         
         @Override
         protected void dibujar(Graphics2D g2d) {
+            // Dibujar fondo con degradado de cielo y suelo
+            dibujarFondo(g2d, alto - 80, 
+                         new Color(173, 216, 230), // Azul claro para el cielo
+                         new Color(135, 206, 235), // Azul cielo para el cielo
+                         new Color(144, 238, 144)); // Verde claro para el suelo
+            
             dibujarCuadricula(g2d, 50);
             
             int pisoY = alto - 80;
@@ -461,9 +479,9 @@ public class SimulacionMRU extends JPanel {
             int objetoX = 50 + metrosAPixeles(posicionX);
             int objetoY = pisoY - 25;
             
-            Color colorObjeto = objetivoAlcanzado ? 
-                               new Color(46, 204, 113) : new Color(52, 152, 219);
-            dibujarObjeto(g2d, objetoX, objetoY, 15, colorObjeto);
+            Color colorFinalObjeto = objetivoAlcanzado ? 
+                               new Color(46, 204, 113) : colorObjeto; // Usa el color aleatorio
+            dibujarObjeto(g2d, objetoX, objetoY, 15, colorFinalObjeto, formaObjeto); // Usa la forma aleatoria
             
             if (mostrarVectores && velocidadActual > 0) {
                 g2d.setColor(new Color(39, 174, 96));
@@ -488,17 +506,17 @@ public class SimulacionMRU extends JPanel {
             double distanciaRecorrida = posicionX - x0;
             double velocidadMedia = distanciaRecorrida / (tiempoTotal > 0 ? tiempoTotal : 1);
             
-            String estadoStr = objetivoAlcanzado ? " ✓ META ALCANZADA" : 
-                              (tiempoLimite > 0 && tiempoTotal >= tiempoLimite) ? " ⏰ TIEMPO LÍMITE" :
-                              modoInfinito ? " ∞ MODO INFINITO" : " 🏃 EN MOVIMIENTO";
+            String estadoStr = objetivoAlcanzado ? " META ALCANZADA" : 
+                              (tiempoLimite > 0 && tiempoTotal >= tiempoLimite) ? " TIEMPO LIMITE" :
+                              modoInfinito ? " MODO INFINITO" : " EN MOVIMIENTO";
             
             String[] info = {
-                "⏱️ Tiempo: " + String.format("%.2f s", tiempoTotal) + estadoStr,
-                "📍 Posición: " + String.format("%.2f m", posicionX),
-                "📏 Distancia recorrida: " + String.format("%.2f m", distanciaRecorrida),
-                "➡️ Velocidad: " + String.format("%.2f m/s", velocidadActual) + " (constante)",
-                "📊 Velocidad media: " + String.format("%.2f m/s", velocidadMedia),
-                "⚡ Aceleración: 0.00 m/s²"
+                "Tiempo: " + String.format("%.2f s", tiempoTotal) + estadoStr,
+                "Posicion: " + String.format("%.2f m", posicionX),
+                "Distancia recorrida: " + String.format("%.2f m", distanciaRecorrida),
+                "Velocidad: " + String.format("%.2f m/s", velocidadActual) + " (constante)",
+                "Velocidad media: " + String.format("%.2f m/s", velocidadMedia),
+                "Aceleracion: 0.00 m/s2"
             };
             dibujarInfo(g2d, info, 20, 20);
             
@@ -531,4 +549,3 @@ public class SimulacionMRU extends JPanel {
         }
     }
 }
-

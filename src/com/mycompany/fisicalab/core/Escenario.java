@@ -110,21 +110,80 @@ public abstract class Escenario extends JPanel {
     }
     
     /**
-     * Dibuja un objeto circular (móvil)
+     * Dibuja un objeto con forma y color personalizables.
+     * @param g2d Contexto gráfico 2D.
+     * @param x Coordenada X central del objeto.
+     * @param y Coordenada Y central del objeto.
+     * @param tamano Tamaño del objeto (radio para círculo, mitad de lado para cuadrado/triángulo).
+     * @param color Color principal del objeto.
+     * @param forma Tipo de forma (0: círculo, 1: cuadrado, 2: triángulo).
      */
-    protected void dibujarObjeto(Graphics2D g2d, int x, int y, int radio, Color color) {
+    protected void dibujarObjeto(Graphics2D g2d, int x, int y, int tamano, Color color, int forma) {
         // Sombra
         g2d.setColor(new Color(0, 0, 0, 50));
-        g2d.fillOval(x - radio + 2, y - radio + 2, radio * 2, radio * 2);
-        
+        Shape sombra = null;
+        switch (forma) {
+            case 0: // Círculo
+                sombra = new java.awt.geom.Ellipse2D.Double(x - tamano + 2, y - tamano + 2, tamano * 2, tamano * 2);
+                break;
+            case 1: // Cuadrado
+                sombra = new java.awt.Rectangle(x - tamano + 2, y - tamano + 2, tamano * 2, tamano * 2);
+                break;
+            case 2: // Triángulo
+                int[] xPointsSombra = {x + 2, x - tamano + 2, x + tamano + 2};
+                int[] yPointsSombra = {y - tamano + 2, y + tamano + 2, y + tamano + 2};
+                sombra = new Polygon(xPointsSombra, yPointsSombra, 3);
+                break;
+        }
+        if (sombra != null) {
+            g2d.fill(sombra);
+        }
+
         // Objeto principal
         g2d.setColor(color);
-        g2d.fillOval(x - radio, y - radio, radio * 2, radio * 2);
-        
+        Shape objeto = null;
+        switch (forma) {
+            case 0: // Círculo
+                objeto = new java.awt.geom.Ellipse2D.Double(x - tamano, y - tamano, tamano * 2, tamano * 2);
+                break;
+            case 1: // Cuadrado
+                objeto = new java.awt.Rectangle(x - tamano, y - tamano, tamano * 2, tamano * 2);
+                break;
+            case 2: // Triángulo
+                int[] xPoints = {x, x - tamano, x + tamano};
+                int[] yPoints = {y - tamano, y + tamano, y + tamano};
+                objeto = new Polygon(xPoints, yPoints, 3);
+                break;
+        }
+        if (objeto != null) {
+            g2d.fill(objeto);
+        }
+
         // Borde
         g2d.setColor(color.darker());
         g2d.setStroke(new BasicStroke(2));
-        g2d.drawOval(x - radio, y - radio, radio * 2, radio * 2);
+        if (objeto != null) {
+            g2d.draw(objeto);
+        }
+    }
+
+    /**
+     * Dibuja un fondo con un degradado de cielo y un suelo.
+     * @param g2d Contexto gráfico 2D.
+     * @param pisoY Coordenada Y donde comienza el suelo.
+     * @param colorCielo1 Color superior del cielo.
+     * @param colorCielo2 Color inferior del cielo.
+     * @param colorSuelo Color del suelo.
+     */
+    protected void dibujarFondo(Graphics2D g2d, int pisoY, Color colorCielo1, Color colorCielo2, Color colorSuelo) {
+        // Cielo con degradado
+        GradientPaint cieloGradient = new GradientPaint(0, 0, colorCielo1, 0, pisoY, colorCielo2);
+        g2d.setPaint(cieloGradient);
+        g2d.fillRect(0, 0, ancho, pisoY);
+
+        // Suelo
+        g2d.setColor(colorSuelo);
+        g2d.fillRect(0, pisoY, ancho, alto - pisoY);
     }
     
     /**

@@ -49,7 +49,7 @@ public class MisionTiroParabolico extends Mision {
             case ANGULO_OPTIMO:
                 this.objetivo = "Encontrar el ángulo de máximo alcance";
                 this.restricciones = new String[]{
-                    "• Pista: cerca de 45°",
+            "• Pista: cerca de 45 grados",
                     "• Velocidad fija: 20 m/s"
                 };
                 break;
@@ -123,15 +123,15 @@ public class MisionTiroParabolico extends Mision {
         );
         misiones.add(m2);
         
-        // Misión 3: Ángulo Óptimo (Medio)
+        // Mision 3: Angulo Optimo (Medio)
         MisionTiroParabolico m3 = new MisionTiroParabolico(
             "TIRO_03",
-            "Ángulo Óptimo",
+            "Angulo Optimo",
             "Descubre el ángulo que da máximo alcance con v=20 m/s. (Pista: ~45°)",
             3,
             TipoMisionTiro.ANGULO_OPTIMO,
-            45.0,  // Ángulo óptimo
-            3.0    // Tolerancia: ±3°
+            45.0,  // Angulo optimo
+            3.0    // Tolerancia: +-3 grados
         );
         misiones.add(m3);
         

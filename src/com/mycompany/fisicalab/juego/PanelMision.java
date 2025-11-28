@@ -62,7 +62,7 @@ public class PanelMision extends JPanel {
         panelInfo.setMaximumSize(new Dimension(700, 400));
         
         // Descripción
-        JLabel lblDescTitulo = new JLabel("📝 DESCRIPCIÓN:");
+        JLabel lblDescTitulo = new JLabel("DESCRIPCION:");
         lblDescTitulo.setFont(new Font("Arial", Font.BOLD, 14));
         lblDescTitulo.setAlignmentX(Component.LEFT_ALIGNMENT);
         
@@ -95,7 +95,7 @@ public class PanelMision extends JPanel {
         panelInfo.add(Box.createRigidArea(new Dimension(0, 15)));
         
         // Restricciones
-        JLabel lblRestTitulo = new JLabel("⚠️ RESTRICCIONES:");
+        JLabel lblRestTitulo = new JLabel("RESTRICCIONES:");
         lblRestTitulo.setFont(new Font("Arial", Font.BOLD, 14));
         lblRestTitulo.setAlignmentX(Component.LEFT_ALIGNMENT);
         
@@ -122,7 +122,7 @@ public class PanelMision extends JPanel {
         lblPuntos.setFont(new Font("Arial", Font.BOLD, 13));
         lblPuntos.setForeground(UIHelper.COLOR_ADVERTENCIA);
         
-        JLabel lblEstrellas = new JLabel("⭐ Máximo: 3 estrellas");
+        JLabel lblEstrellas = new JLabel("Maximo: 3 estrellas");
         lblEstrellas.setFont(new Font("Arial", Font.BOLD, 13));
         
         panelEstadisticas.add(lblDif);
@@ -138,11 +138,11 @@ public class PanelMision extends JPanel {
         JPanel panelBotones = new JPanel(new FlowLayout(FlowLayout.CENTER, 20, 0));
         panelBotones.setOpaque(false);
         
-        JButton btnCancelar = UIHelper.crearBotonRedondeado("← Cancelar", new Color(149, 165, 166));
+        JButton btnCancelar = UIHelper.crearBotonRedondeado("Cancelar", new Color(149, 165, 166));
         btnCancelar.setPreferredSize(new Dimension(160, 50));
         btnCancelar.addActionListener(e -> volverAModoJuego());
         
-        JButton btnComenzar = UIHelper.crearBotonRedondeado("▶ Comenzar Misión", UIHelper.COLOR_EXITO);
+        JButton btnComenzar = UIHelper.crearBotonRedondeado("Comenzar Mision", UIHelper.COLOR_EXITO);
         btnComenzar.setPreferredSize(new Dimension(200, 50));
         btnComenzar.addActionListener(e -> iniciarSimulacion());
         
@@ -185,13 +185,13 @@ public class PanelMision extends JPanel {
             
             // ----- INICIO DE LA CORRECCIÓN -----
             
-            // 1. CREA UNA NUEVA VARIABLE AQUÍ
+            // 1. CREA UNA NUEVA VARIABLE AQUI
             // Esta variable es "efectivamente final" porque no vuelve a cambiar.
             JPanel panelParaDialogo = simulacion;
 
             // Mostrar diálogo informativo temporal
             SwingUtilities.invokeLater(() -> {
-                // 2. USA LA NUEVA VARIABLE AQUÍ
+                // 2. USA LA NUEVA VARIABLE AQUI
                 UIHelper.mostrarInfo(panelParaDialogo, 
                     "MISIÓN ACTIVA: " + mision.getNombre() + "\n\n" +
                     "Por ahora, usa la simulación normal.\n" +

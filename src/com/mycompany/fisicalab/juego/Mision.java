@@ -148,7 +148,7 @@ public abstract class Mision implements Serializable {
         StringBuilder sb = new StringBuilder();
         for (int i = 0; i < 3; i++) {
             if (i < estrellasObtenidas) {
-                sb.append("⭐");
+                sb.append("*");
             } else {
                 sb.append("☆");
             }
@@ -163,10 +163,10 @@ public abstract class Mision implements Serializable {
         switch (dificultad) {
             case 1: return "😊 Fácil";
             case 2: return "🙂 Normal";
-            case 3: return "😐 Medio";
+            case 3: return "Medio";
             case 4: return "😰 Difícil";
             case 5: return "😱 Muy Difícil";
-            default: return "❓";
+            default: return "?";
         }
     }
     

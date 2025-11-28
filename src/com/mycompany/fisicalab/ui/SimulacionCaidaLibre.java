@@ -7,10 +7,11 @@ import com.mycompany.fisicalab.utils.UIHelper;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
+import java.util.Random;
 
 /**
- * Simulación de Caída Libre v2.6
- * Nueva interfaz reorganizada
+ * Simulación de Caída Libre v3.0
+ * Nueva interfaz reorganizada con estilos únicos y objetos variados.
  */
 public class SimulacionCaidaLibre extends JPanel {
     
@@ -85,12 +86,12 @@ public class SimulacionCaidaLibre extends JPanel {
     }
     
     private void inicializarComponentes() {
-        // ===== PANEL SUPERIOR (TÍTULO) =====
+        // ===== PANEL SUPERIOR (TITULO) =====
         JPanel panelTitulo = new JPanel(new BorderLayout());
         panelTitulo.setOpaque(false);
         panelTitulo.setBorder(BorderFactory.createEmptyBorder(10, 15, 5, 15));
         
-        JLabel titulo = new JLabel("Caída Libre v2.0");
+        JLabel titulo = new JLabel("Caida Libre v2.0");
         titulo.setFont(new Font("Arial", Font.BOLD, 20));
         titulo.setForeground(UIHelper.COLOR_SECUNDARIO);
         panelTitulo.add(titulo, BorderLayout.WEST);
@@ -110,9 +111,9 @@ public class SimulacionCaidaLibre extends JPanel {
         sliderAltura.setAlignmentX(Component.LEFT_ALIGNMENT);
         sliderAltura.addChangeListener(e -> {
             alturaInicial = sliderAltura.getValue();
-            labelAltura.setText(String.format("h₀ = %.1f m", alturaInicial));
+            labelAltura.setText(String.format("h0 = %.1f m", alturaInicial));
         });
-        labelAltura = new JLabel(String.format("h₀ = %.1f m", alturaInicial));
+        labelAltura = new JLabel(String.format("h0 = %.1f m", alturaInicial));
         labelAltura.setFont(new Font("Monospaced", Font.PLAIN, 12));
         labelAltura.setAlignmentX(Component.LEFT_ALIGNMENT);
         panelControlesInterno.add(sliderAltura);
@@ -163,10 +164,10 @@ public class SimulacionCaidaLibre extends JPanel {
         sliderGravedad.setAlignmentX(Component.LEFT_ALIGNMENT);
         sliderGravedad.addChangeListener(e -> {
             gravedad = sliderGravedad.getValue() / 10.0;
-            labelGravedad.setText(String.format("g = %.1f m/s²", gravedad));
+        labelGravedad.setText(String.format("g = %.1f m/s2", gravedad));
             MotorSimulacion.setGravedad(gravedad);
         });
-        labelGravedad = new JLabel(String.format("g = %.1f m/s²", gravedad));
+        labelGravedad = new JLabel(String.format("g = %.1f m/s2", gravedad));
         labelGravedad.setFont(new Font("Monospaced", Font.PLAIN, 12));
         labelGravedad.setAlignmentX(Component.LEFT_ALIGNMENT);
         JLabel labelInfoGrav = new JLabel("(Tierra=9.8, Luna=1.6, Marte=3.7)");
@@ -208,7 +209,7 @@ public class SimulacionCaidaLibre extends JPanel {
             mostrarVectores = chkMostrarVectores.isSelected();
         });
         
-        chkMostrarEnergia = new JCheckBox("Mostrar energía (E)", false);
+        chkMostrarEnergia = new JCheckBox("Mostrar energia (E)", false);
         chkMostrarEnergia.setFont(new Font("Arial", Font.PLAIN, 12));
         chkMostrarEnergia.setAlignmentX(Component.LEFT_ALIGNMENT);
         chkMostrarEnergia.addActionListener(e -> {
@@ -309,7 +310,7 @@ public class SimulacionCaidaLibre extends JPanel {
             "ESPACIO: Soltar/Pausar",
             "R: Reiniciar",
             "V: Toggle vectores",
-            "E: Toggle energía"
+            "E: Toggle energia"
         };
         
         for (String control : controles) {
@@ -320,15 +321,15 @@ public class SimulacionCaidaLibre extends JPanel {
         
         panel.add(Box.createRigidArea(new Dimension(0, 8)));
         
-        JLabel labelFormulas = new JLabel("□ CAÍDA LIBRE:");
+        JLabel labelFormulas = new JLabel("CAIDA LIBRE:");
         labelFormulas.setFont(new Font("Arial", Font.BOLD, 11));
         panel.add(labelFormulas);
         
         String[] formulas = {
-            "y = h₀ + v₀·t - ½g·t²",
-            "v = v₀ - g·t",
-            "Eₚ = m·g·h",
-            "Eₖ = ½m·v²"
+            "y = h0 + v0*t - 1/2g*t^2",
+            "v = v0 - g*t",
+            "Ep = m*g*h",
+            "Ek = 1/2m*v^2"
         };
         
         for (String formula : formulas) {
@@ -401,12 +402,22 @@ public class SimulacionCaidaLibre extends JPanel {
         
         private MotorSimulacion motorLocal;
         private double posicionY, velocidadY, altura, v0, m, tiempoTotal;
-        private boolean enSuelo, mostrarVectores, mostrarEnergia;
+    private boolean enSuelo, mostrarVectores, mostrarEnergia;
+    private int formaObjeto; // 0: círculo, 1: cuadrado, 2: triángulo
+    private Color colorObjeto;
+    private Random random;
         
         public EscenarioCaidaLibre(int ancho, int alto) {
             super(ancho, alto);
             this.escalaPixeles = 2.5;
+            random = new Random();
+            seleccionarEstiloAleatorio();
             reiniciar();
+        }
+        
+        private void seleccionarEstiloAleatorio() {
+            formaObjeto = random.nextInt(3); // 0, 1 o 2
+            colorObjeto = new Color(random.nextInt(256), random.nextInt(256), random.nextInt(256));
         }
         
         public void setMotor(MotorSimulacion motor) {
@@ -426,6 +437,7 @@ public class SimulacionCaidaLibre extends JPanel {
             velocidadY = v0;
             tiempoTotal = 0;
             enSuelo = false;
+            seleccionarEstiloAleatorio(); // Nuevo estilo al reiniciar
         }
         
         @Override
@@ -446,10 +458,18 @@ public class SimulacionCaidaLibre extends JPanel {
         
         @Override
         protected void dibujar(Graphics2D g2d) {
-            GradientPaint cielo = new GradientPaint(0, 0, new Color(135, 206, 250),
-                                                     0, alto, new Color(240, 248, 255));
-            g2d.setPaint(cielo);
-            g2d.fillRect(0, 0, ancho, alto);
+            // Dibujar fondo con degradado de cielo y suelo
+            dibujarFondo(g2d, alto - 50, 
+                         new Color(173, 216, 230), // Azul claro para el cielo
+                         new Color(135, 206, 235), // Azul cielo para el cielo
+                         new Color(144, 238, 144)); // Verde claro para el suelo
+            
+            dibujarCuadricula(g2d, 50);
+            
+            int sueloY = alto - 50;
+            g2d.setColor(new Color(52, 73, 94));
+            g2d.setStroke(new BasicStroke(3));
+            g2d.drawLine(0, sueloY, ancho, sueloY);
             
             g2d.setColor(new Color(100, 100, 100));
             g2d.setFont(new Font("Arial", Font.PLAIN, 10));
@@ -460,12 +480,6 @@ public class SimulacionCaidaLibre extends JPanel {
                     g2d.drawString(i + "m", 15, y + 5);
                 }
             }
-            
-            int sueloY = alto - 50;
-            g2d.setColor(new Color(101, 67, 33));
-            g2d.fillRect(0, sueloY, ancho, 50);
-            g2d.setColor(new Color(76, 153, 0));
-            g2d.fillRect(0, sueloY - 10, ancho, 10);
             
             g2d.setColor(new Color(100, 100, 100, 150));
             g2d.setStroke(new BasicStroke(2, BasicStroke.CAP_BUTT, 
@@ -480,13 +494,13 @@ public class SimulacionCaidaLibre extends JPanel {
             int objetoX = ancho / 2;
             int objetoY = sueloY - metrosAPixeles(posicionY) - 15;
             
-            Color colorObjeto = enSuelo ? new Color(46, 204, 113) : new Color(231, 76, 60);
-            int radioObjeto = (int)(15 * Math.sqrt(m));
-            dibujarObjeto(g2d, objetoX, objetoY, radioObjeto, colorObjeto);
+            Color colorFinalObjeto = enSuelo ? new Color(46, 204, 113) : colorObjeto;
+            int tamanoObjeto = (int)(15 * Math.sqrt(m));
+            dibujarObjeto(g2d, objetoX, objetoY, tamanoObjeto, colorFinalObjeto, formaObjeto);
             
             if (mostrarVectores && !enSuelo && Math.abs(velocidadY) > 0.1) {
                 g2d.setColor(new Color(39, 174, 96));
-                g2d.setStroke(new BasicStroke(3));
+                g2d.setStroke(new BasicStroke(3, BasicStroke.CAP_ROUND, BasicStroke.JOIN_ROUND));
                 int longitudFlecha = Math.min((int)(Math.abs(velocidadY) * 5), 100);
                 int direccion = velocidadY < 0 ? 1 : -1;
                 g2d.drawLine(objetoX, objetoY, objetoX, objetoY + direccion * longitudFlecha);
@@ -516,19 +530,19 @@ public class SimulacionCaidaLibre extends JPanel {
             double energiaCinetica = 0.5 * m * velocidadY * velocidadY;
             double energiaTotal = energiaPotencial + energiaCinetica;
             
-            String estado = enSuelo ? " ⚫ EN SUELO" : 
-                           velocidadY < 0 ? " ⬇️ CAYENDO" : " ⬆️ SUBIENDO";
+            String estado = enSuelo ? " EN SUELO" : 
+                           velocidadY < 0 ? " CAYENDO" : " SUBIENDO";
             
             String[] info = {
-                "⏱️ Tiempo: " + String.format("%.2f s", tiempoTotal) + estado,
-                "📍 Altura: " + String.format("%.2f m", Math.max(0, posicionY)),
-                "⬇️ Velocidad: " + String.format("%.2f m/s", velocidadY),
-                "⚡ Aceleración: " + String.format("%.2f m/s²", MotorSimulacion.getGravedad()),
-                "⚖️ Masa: " + String.format("%.2f kg", m),
+                "Tiempo: " + String.format("%.2f s", tiempoTotal) + estado,
+                "Altura: " + String.format("%.2f m", Math.max(0, posicionY)),
+                "Velocidad: " + String.format("%.2f m/s", velocidadY),
+                "Aceleracion: " + String.format("%.2f m/s2", MotorSimulacion.getGravedad()),
+                "Masa: " + String.format("%.2f kg", m),
                 "",
-                mostrarEnergia ? "🔋 Eₚ: " + String.format("%.2f J", energiaPotencial) : "",
-                mostrarEnergia ? "⚡ Eₖ: " + String.format("%.2f J", energiaCinetica) : "",
-                mostrarEnergia ? "💯 E total: " + String.format("%.2f J", energiaTotal) : ""
+                mostrarEnergia ? "Ep: " + String.format("%.2f J", energiaPotencial) : "",
+                mostrarEnergia ? "Ek: " + String.format("%.2f J", energiaCinetica) : "",
+                mostrarEnergia ? "E total: " + String.format("%.2f J", energiaTotal) : ""
             };
             dibujarInfo(g2d, info, 20, 20);
             
@@ -546,7 +560,7 @@ public class SimulacionCaidaLibre extends JPanel {
                 
                 g2d.setColor(Color.BLACK);
                 g2d.setFont(new Font("Arial", Font.BOLD, 13));
-                g2d.drawString("ENERGÍA", barraX + 10, barraY + 20);
+                g2d.drawString("ENERGIA", barraX + 10, barraY + 20);
                 
                 int barraEY = barraY + 35;
                 int barraEAncho = 200;
@@ -577,6 +591,30 @@ public class SimulacionCaidaLibre extends JPanel {
                 g2d.drawString(String.format("Total: %.1f J", energiaTotal), 
                               barraX + 15, barraEY + 15);
             }
+        }
+
+        private void dibujarObjetoDetallado(Graphics2D g2d, int x, int y, int radio, Color color) {
+            // Cuerpo principal (esfera)
+            g2d.setColor(color);
+            g2d.fillOval(x - radio, y - radio, radio * 2, radio * 2);
+
+            // Borde
+            g2d.setColor(color.darker());
+            g2d.setStroke(new BasicStroke(2));
+            g2d.drawOval(x - radio, y - radio, radio * 2, radio * 2);
+
+            // Brillo (círculo más pequeño en la parte superior izquierda)
+            g2d.setColor(new Color(255, 255, 255, 150));
+            g2d.fillOval(x - radio / 2, y - radio / 2, radio, radio);
+
+            // Sombra interna (gradiente radial)
+            RadialGradientPaint sombraInterna = new RadialGradientPaint(
+                x, y, radio,
+                new float[]{0.0f, 1.0f},
+                new Color[]{new Color(0, 0, 0, 0), new Color(0, 0, 0, 100)}
+            );
+            g2d.setPaint(sombraInterna);
+            g2d.fillOval(x - radio, y - radio, radio * 2, radio * 2);
         }
     }
 }

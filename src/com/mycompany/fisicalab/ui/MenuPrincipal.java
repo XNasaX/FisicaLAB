@@ -1,14 +1,18 @@
 package com.mycompany.fisicalab.ui;
 
 import com.mycompany.fisicalab.core.SimuladorFrame;
-import com.mycompany.fisicalab.utils.UIHelper;
-import javax.swing.*;
+import com.mycompany.fisicalab.modos.SeleccionModo;
+import com.mycompany.fisicalab.utils.UserManager;
 import java.awt.*;
 import java.awt.geom.AffineTransform;
 import java.awt.image.BufferedImage;
+import java.io.IOException;
+import java.net.URI;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
+import javax.imageio.ImageIO;
+import javax.swing.*;
 
 /**
  * Menú principal de la aplicación con fondo animado
@@ -20,6 +24,8 @@ public class MenuPrincipal extends JPanel {
     private Timer animacionTimer;
     private List<PapelFlotante> papeles;
     private Random random;
+    private UserManager userManager;
+    private JLabel userLabel;
     
     // Clase interna para papeles flotantes
     private class PapelFlotante {
@@ -40,14 +46,13 @@ public class MenuPrincipal extends JPanel {
             ancho = 40 + random.nextInt(20);
             alto = 50 + random.nextInt(20);
             
-            // Colores pasteles para los papeles
             int opcion = random.nextInt(5);
             switch(opcion) {
-                case 0: color = new Color(174, 214, 241, 40); break; // Azul claro
-                case 1: color = new Color(162, 217, 206, 40); break; // Verde agua
-                case 2: color = new Color(250, 219, 216, 40); break; // Rosa claro
-                case 3: color = new Color(249, 231, 159, 40); break; // Amarillo claro
-                default: color = new Color(210, 180, 222, 40); break; // Lila claro
+                case 0: color = new Color(174, 214, 241, 40); break;
+                case 1: color = new Color(162, 217, 206, 40); break;
+                case 2: color = new Color(250, 219, 216, 40); break;
+                case 3: color = new Color(249, 231, 159, 40); break;
+                default: color = new Color(210, 180, 222, 40); break;
             }
         }
         
@@ -56,7 +61,6 @@ public class MenuPrincipal extends JPanel {
             y += velocidadY;
             rotacion += velocidadRotacion;
             
-            // Rebote en bordes
             if (x < -ancho) x = panelAncho;
             if (x > panelAncho) x = -ancho;
             if (y < -alto) y = panelAlto;
@@ -68,20 +72,16 @@ public class MenuPrincipal extends JPanel {
             g2d.translate(x, y);
             g2d.rotate(Math.toRadians(rotacion));
             
-            // Sombra
             g2d.setColor(new Color(0, 0, 0, 20));
             g2d.fillRect(-ancho/2 + 2, -alto/2 + 2, ancho, alto);
             
-            // Papel
             g2d.setColor(color);
             g2d.fillRect(-ancho/2, -alto/2, ancho, alto);
             
-            // Borde
             g2d.setColor(new Color(color.getRed(), color.getGreen(), color.getBlue(), 80));
             g2d.setStroke(new BasicStroke(1));
             g2d.drawRect(-ancho/2, -alto/2, ancho, alto);
             
-            // Líneas decorativas (simulando texto)
             g2d.setColor(new Color(100, 100, 100, 30));
             for (int i = 0; i < 3; i++) {
                 int yLinea = -alto/2 + 10 + i * 8;
@@ -92,20 +92,39 @@ public class MenuPrincipal extends JPanel {
         }
     }
     
-    public MenuPrincipal(SimuladorFrame frame) {
+    public MenuPrincipal(SimuladorFrame frame, UserManager userManager) { // Aceptar UserManager
         this.frame = frame;
         this.random = new Random();
+        this.userManager = userManager; // Usar la instancia pasada
         setLayout(new BorderLayout());
-        setBackground(new Color(236, 240, 241));
+        setBackground(new Color(26, 32, 44)); // Fondo azul oscuro
         
-        inicializarPapeles();
+        inicializarPapeles(); // Mantener la animación de papeles
         inicializarComponentes();
-        iniciarAnimacion();
+        iniciarAnimacion(); // Iniciar la animación
+        
+        if (!userManager.isUserLoggedIn()) {
+            mostrarLoginRegister();
+        }
+        actualizarUsuarioLogueado();
+    }
+    
+    private void mostrarLoginRegister() {
+        LoginRegisterDialog dialog = new LoginRegisterDialog(frame, userManager);
+        dialog.setVisible(true);
+        actualizarUsuarioLogueado();
+    }
+    
+    private void actualizarUsuarioLogueado() {
+        if (userManager.isUserLoggedIn()) {
+            userLabel.setText("Usuario: " + userManager.getCurrentUser());
+        } else {
+            userLabel.setText("No logueado");
+        }
     }
     
     private void inicializarPapeles() {
         papeles = new ArrayList<>();
-        // Crear entre 15-20 papeles flotantes
         int numPapeles = 15 + random.nextInt(6);
         for (int i = 0; i < numPapeles; i++) {
             papeles.add(new PapelFlotante(1200, 800));
@@ -135,118 +154,155 @@ public class MenuPrincipal extends JPanel {
     }
     
     private void inicializarComponentes() {
-        // Panel central con logo y botones
+        // Panel superior para iconos de usuario, ayuda y configuración
+        JPanel panelSuperior = new JPanel(new BorderLayout());
+        panelSuperior.setOpaque(false);
+        panelSuperior.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
+
+        // Izquierda: Icono de usuario y nombre
+        JPanel panelUsuario = new JPanel(new FlowLayout(FlowLayout.LEFT, 5, 0));
+        panelUsuario.setOpaque(false);
+        JLabel iconoUsuario = new JLabel(cargarIcono("/com/mycompany/fisicalab/recursos/user_icon.png", 40, 40)); // 40x40px
+        userLabel = new JLabel("perfil 1");
+        userLabel.setFont(new Font("Arial", Font.BOLD, 16));
+        userLabel.setForeground(Color.WHITE);
+        panelUsuario.add(iconoUsuario);
+        panelUsuario.add(userLabel);
+        panelSuperior.add(panelUsuario, BorderLayout.WEST);
+
+        // Derecha: Iconos de ayuda y configuración
+        JPanel panelIconosDerecha = new JPanel(new FlowLayout(FlowLayout.RIGHT, 10, 0));
+        panelIconosDerecha.setOpaque(false);
+        JLabel iconoAyuda = new JLabel(cargarIcono("/com/mycompany/fisicalab/recursos/help_icon.png", 40, 40)); // 40x40px
+        JLabel iconoConfig = new JLabel(cargarIcono("/com/mycompany/fisicalab/recursos/settings_icon.png", 40, 40)); // 40x40px
+        panelIconosDerecha.add(iconoAyuda);
+        panelIconosDerecha.add(iconoConfig);
+        panelSuperior.add(panelIconosDerecha, BorderLayout.EAST);
+
+        add(panelSuperior, BorderLayout.NORTH);
+
+        // Panel central con logo y botones principales
         JPanel panelCentral = new JPanel();
         panelCentral.setLayout(new BoxLayout(panelCentral, BoxLayout.Y_AXIS));
         panelCentral.setOpaque(false);
-        panelCentral.setBorder(BorderFactory.createEmptyBorder(80, 50, 50, 50));
+        panelCentral.setBorder(BorderFactory.createEmptyBorder(50, 50, 50, 50));
         
-        // Logo/Título (aquí puedes poner tu logo si lo tienes)
-        JLabel logo = crearLogo();
-        logo.setAlignmentX(Component.CENTER_ALIGNMENT);
+        // Logo de FisicaLab (imagen PNG)
+        JLabel logoLabel = null;
+        try {
+            BufferedImage img = ImageIO.read(getClass().getResource("/com/mycompany/fisicalab/recursos/logo.png"));
+            logoLabel = new JLabel(new ImageIcon(img.getScaledInstance(400, 200, Image.SCALE_SMOOTH))); // 400x200px
+        } catch (IOException e) {
+            e.printStackTrace();
+            logoLabel = new JLabel("FisicaLAB");
+            logoLabel.setFont(new Font("Arial", Font.BOLD, 72));
+            logoLabel.setForeground(Color.WHITE);
+        }
+        logoLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
         
-        JLabel subtitulo = new JLabel("Simulador de Física Interactivo");
-        subtitulo.setFont(new Font("Arial", Font.PLAIN, 20));
-        subtitulo.setForeground(new Color(52, 73, 94));
-        subtitulo.setAlignmentX(Component.CENTER_ALIGNMENT);
-        
-        panelCentral.add(logo);
-        panelCentral.add(Box.createRigidArea(new Dimension(0, 15)));
-        panelCentral.add(subtitulo);
+        panelCentral.add(logoLabel);
         panelCentral.add(Box.createRigidArea(new Dimension(0, 50)));
         
-        // Panel de botones
-        JPanel panelBotones = new JPanel(new GridLayout(6, 1, 0, 20));
-        panelBotones.setOpaque(false);
-        panelBotones.setMaximumSize(new Dimension(350, 420));
+        // Panel de botones principales (Modo Aprende, Modo Juego)
+        JPanel panelBotonesPrincipales = new JPanel(new GridLayout(1, 2, 30, 0));
+        panelBotonesPrincipales.setOpaque(false);
+        panelBotonesPrincipales.setMaximumSize(new Dimension(800, 100));
         
-        // Botón MRU
-        JButton btnMRU = crearBotonMenu("🏃 Movimiento Rectilíneo Uniforme", UIHelper.COLOR_PRIMARIO);
-        btnMRU.addActionListener(e -> abrirSimulacion("MRU"));
+        JButton btnModoAprende = crearBotonMenu("MODO APRENDE", new Color(231, 76, 60));
+        btnModoAprende.addActionListener(e -> abrirSeleccionModo("aprende"));
         
-        // Botón Caída Libre
-        JButton btnCaidaLibre = crearBotonMenu("🪂 Caída Libre", UIHelper.COLOR_SECUNDARIO);
-        btnCaidaLibre.addActionListener(e -> abrirSimulacion("CAIDA_LIBRE"));
+        JButton btnModoJuego = crearBotonMenu("MODO JUEGO", new Color(46, 204, 113));
+        btnModoJuego.addActionListener(e -> abrirSeleccionModo("juego"));
         
-        // Botón Tiro Parabólico
-        JButton btnTiroParabolico = crearBotonMenu("🎯 Tiro Parabólico", UIHelper.COLOR_EXITO);
-        btnTiroParabolico.addActionListener(e -> abrirSimulacion("TIRO_PARABOLICO"));
+        panelBotonesPrincipales.add(btnModoAprende);
+        panelBotonesPrincipales.add(btnModoJuego);
         
-        // NUEVO: Botón Modos de Juego (v3.0)
-        JButton btnModos = crearBotonMenu("🎮 Modos de Juego (NUEVO)", new Color(155, 89, 182));
-        btnModos.addActionListener(e -> abrirSeleccionModo());
-        
-        // Botón Historial (deshabilitado por ahora)
-        JButton btnHistorial = crearBotonMenu("📊 Historial de Resultados", new Color(149, 165, 166));
-        btnHistorial.setEnabled(false);
-        
-        // Botón Salir
-        JButton btnSalir = crearBotonMenu("🚪 Salir", UIHelper.COLOR_PELIGRO);
-        btnSalir.addActionListener(e -> {
-            animacionTimer.stop();
-            System.exit(0);
-        });
-        
-        panelBotones.add(btnMRU);
-        panelBotones.add(btnCaidaLibre);
-        panelBotones.add(btnTiroParabolico);
-        panelBotones.add(btnModos);
-        panelBotones.add(btnHistorial);
-        panelBotones.add(btnSalir);
-        
-        panelCentral.add(panelBotones);
-        
-        // Versión en esquina inferior derecha
-        JPanel panelVersion = new JPanel(new FlowLayout(FlowLayout.RIGHT));
-        panelVersion.setOpaque(false);
-        JLabel labelVersion = new JLabel("v2.5 Alpha");
-        labelVersion.setFont(new Font("Arial", Font.ITALIC, 12));
-        labelVersion.setForeground(new Color(127, 140, 141));
-        panelVersion.add(labelVersion);
+        panelCentral.add(panelBotonesPrincipales);
+        panelCentral.add(Box.createRigidArea(new Dimension(0, 30)));
+
+        // Panel de botones secundarios (Mejor Puntaje, Logros)
+        JPanel panelBotonesSecundarios = new JPanel(new FlowLayout(FlowLayout.CENTER, 20, 0));
+        panelBotonesSecundarios.setOpaque(false);
+        panelBotonesSecundarios.setMaximumSize(new Dimension(400, 60));
+
+        JButton btnMejorPuntaje = crearBotonMenu("MEJOR PUNTAJE", new Color(0, 173, 239));
+        btnMejorPuntaje.setPreferredSize(new Dimension(180, 50));
+        btnMejorPuntaje.setFont(new Font("Arial", Font.BOLD, 14));
+        btnMejorPuntaje.addActionListener(e -> JOptionPane.showMessageDialog(this, "Funcionalidad de Mejor Puntaje (BETA)"));
+
+        JButton btnLogros = crearBotonMenu("LOGROS", new Color(147, 112, 219));
+        btnLogros.setPreferredSize(new Dimension(180, 50));
+        btnLogros.setFont(new Font("Arial", Font.BOLD, 14));
+        btnLogros.addActionListener(e -> JOptionPane.showMessageDialog(this, "Funcionalidad de Logros (BETA)"));
+
+        panelBotonesSecundarios.add(btnMejorPuntaje);
+        panelBotonesSecundarios.add(btnLogros);
+
+        panelCentral.add(panelBotonesSecundarios);
         
         add(panelCentral, BorderLayout.CENTER);
-        add(panelVersion, BorderLayout.SOUTH);
+        
+        // Panel inferior para "Visita nuestra página" y versión
+        JPanel panelInferior = new JPanel(new BorderLayout());
+        panelInferior.setOpaque(false);
+        panelInferior.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
+
+        // Izquierda: Visita nuestra página
+        JPanel panelWeb = new JPanel(new FlowLayout(FlowLayout.LEFT, 5, 0));
+        panelWeb.setOpaque(false);
+        JLabel labelVisitaWeb = new JLabel("VISITA NUESTRA PAGINA");
+        labelVisitaWeb.setFont(new Font("Arial", Font.PLAIN, 12));
+        labelVisitaWeb.setForeground(Color.WHITE);
+        JButton btnWeb = crearBotonWeb("LINK DE LA PAGINA", "https://fisica-lab-alpha-web.vercel.app/");
+        btnWeb.setPreferredSize(new Dimension(150, 30));
+        btnWeb.setFont(new Font("Arial", Font.BOLD, 10));
+        panelWeb.add(labelVisitaWeb);
+        panelWeb.add(btnWeb);
+        panelInferior.add(panelWeb, BorderLayout.WEST);
+
+        // Derecha: Versión
+        JLabel labelVersion = new JLabel("BETA: 1.0.0");
+        labelVersion.setFont(new Font("Arial", Font.ITALIC, 12));
+        labelVersion.setForeground(Color.WHITE);
+        JPanel panelVersion = new JPanel(new FlowLayout(FlowLayout.RIGHT));
+        panelVersion.setOpaque(false);
+        panelVersion.add(labelVersion);
+        panelInferior.add(panelVersion, BorderLayout.EAST);
+
+        add(panelInferior, BorderLayout.SOUTH);
+    }
+    
+    private JButton crearBotonWeb(String texto, String url) {
+        JButton boton = new JButton(texto);
+        boton.setFont(new Font("Arial", Font.BOLD, 12));
+        boton.setBackground(new Color(46, 204, 113));
+        boton.setForeground(Color.WHITE);
+        boton.setFocusPainted(false);
+        boton.setBorder(BorderFactory.createEmptyBorder(5, 10, 5, 10));
+        boton.setCursor(new Cursor(Cursor.HAND_CURSOR));
+        boton.addActionListener(e -> {
+            try {
+                Desktop.getDesktop().browse(new URI(url));
+            } catch (Exception ex) {
+                ex.printStackTrace();
+                JOptionPane.showMessageDialog(this, "No se pudo abrir la página web: " + url, "Error", JOptionPane.ERROR_MESSAGE);
+            }
+        });
+        return boton;
+    }
+    
+    private ImageIcon cargarIcono(String path, int width, int height) {
+        try {
+            BufferedImage img = ImageIO.read(getClass().getResource(path));
+            return new ImageIcon(img.getScaledInstance(width, height, Image.SCALE_SMOOTH));
+        } catch (IOException e) {
+            e.printStackTrace();
+            return null;
+        }
     }
     
     private JLabel crearLogo() {
-        // Logo de FisicaLab (texto estilizado)
-        JLabel logo = new JLabel() {
-            @Override
-            protected void paintComponent(Graphics g) {
-                super.paintComponent(g);
-                Graphics2D g2d = (Graphics2D) g;
-                g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
-                g2d.setRenderingHint(RenderingHints.KEY_TEXT_ANTIALIASING, RenderingHints.VALUE_TEXT_ANTIALIAS_ON);
-                
-                // Sombra del texto
-                g2d.setFont(new Font("Arial", Font.BOLD, 72));
-                g2d.setColor(new Color(0, 0, 0, 30));
-                g2d.drawString("FisicaLAB", 5, 75);
-                
-                // Texto principal con degradado
-                GradientPaint gradient = new GradientPaint(
-                    0, 0, UIHelper.COLOR_PRIMARIO,
-                    200, 0, UIHelper.COLOR_SECUNDARIO
-                );
-                g2d.setPaint(gradient);
-                g2d.drawString("FisicaLAB", 0, 70);
-                
-                // Decoración de átomo pequeño
-                g2d.setColor(UIHelper.COLOR_EXITO);
-                g2d.setStroke(new BasicStroke(2));
-                int atomX = 380;
-                int atomY = 35;
-                g2d.drawOval(atomX - 15, atomY - 15, 30, 30);
-                g2d.fillOval(atomX - 4, atomY - 4, 8, 8);
-                
-                // Órbitas
-                g2d.drawOval(atomX - 20, atomY - 10, 40, 20);
-                g2d.drawOval(atomX - 10, atomY - 20, 20, 40);
-            }
-        };
-        
-        logo.setPreferredSize(new Dimension(400, 80));
-        return logo;
+        return new JLabel(); 
     }
     
     private JButton crearBotonMenu(String texto, Color color) {
@@ -256,7 +312,6 @@ public class MenuPrincipal extends JPanel {
                 Graphics2D g2d = (Graphics2D) g.create();
                 g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
                 
-                // Efecto hover
                 Color colorFondo = color;
                 if (getModel().isPressed()) {
                     colorFondo = color.darker();
@@ -264,15 +319,12 @@ public class MenuPrincipal extends JPanel {
                     colorFondo = color.brighter();
                 }
                 
-                // Sombra
                 g2d.setColor(new Color(0, 0, 0, 40));
                 g2d.fillRoundRect(3, 3, getWidth() - 6, getHeight() - 6, 25, 25);
                 
-                // Fondo del botón
                 g2d.setColor(colorFondo);
                 g2d.fillRoundRect(0, 0, getWidth() - 6, getHeight() - 6, 25, 25);
                 
-                // Brillo superior
                 GradientPaint brillo = new GradientPaint(
                     0, 0, new Color(255, 255, 255, 50),
                     0, getHeight() / 2, new Color(255, 255, 255, 0)
@@ -280,12 +332,10 @@ public class MenuPrincipal extends JPanel {
                 g2d.setPaint(brillo);
                 g2d.fillRoundRect(0, 0, getWidth() - 6, getHeight() / 2, 25, 25);
                 
-                // Borde
                 g2d.setColor(colorFondo.darker());
                 g2d.setStroke(new BasicStroke(2));
                 g2d.drawRoundRect(0, 0, getWidth() - 6, getHeight() - 6, 25, 25);
                 
-                // Texto
                 g2d.setColor(isEnabled() ? Color.WHITE : new Color(200, 200, 200));
                 g2d.setFont(getFont());
                 FontMetrics fm = g2d.getFontMetrics();
@@ -308,7 +358,7 @@ public class MenuPrincipal extends JPanel {
     }
     
     private void abrirSimulacion(String tipo) {
-        animacionTimer.stop(); // Detener animación al salir del menú
+        animacionTimer.stop();
         
         JPanel simulacion = null;
         
@@ -322,6 +372,9 @@ public class MenuPrincipal extends JPanel {
             case "TIRO_PARABOLICO":
                 simulacion = new SimulacionTiroParabolico(frame);
                 break;
+            case "MRUV":
+                simulacion = new SimulacionMRUV(frame);
+                break;
         }
         
         if (simulacion != null) {
@@ -329,14 +382,12 @@ public class MenuPrincipal extends JPanel {
         }
     }
     
-    private void abrirSeleccionModo() {
+    private void abrirSeleccionModo(String modo) {
         animacionTimer.stop();
-        com.mycompany.fisicalab.modos.SeleccionModo seleccion = 
-            new com.mycompany.fisicalab.modos.SeleccionModo(frame);
+        SeleccionModo seleccion = new SeleccionModo(frame, modo);
         frame.mostrarSimulacion(seleccion);
     }
     
-    // Reiniciar animación cuando se vuelve al menú
     public void reiniciarAnimacion() {
         if (animacionTimer != null && !animacionTimer.isRunning()) {
             animacionTimer.start();

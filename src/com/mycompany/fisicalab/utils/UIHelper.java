@@ -1,9 +1,9 @@
 package com.mycompany.fisicalab.utils;
 
-import javax.swing.*;
-import javax.swing.border.EmptyBorder;
 import java.awt.*;
 import java.awt.geom.RoundRectangle2D;
+import javax.swing.*;
+import javax.swing.border.EmptyBorder;
 
 /**
  * Utilidades para crear componentes UI con estilo moderno
@@ -158,5 +158,32 @@ public class UIHelper {
      */
     public static String formatearDecimal(double valor, int decimales) {
         return String.format("%." + decimales + "f", valor);
+    }
+    
+    /**
+     * Dibuja una flecha en el contexto gráfico.
+     * @param g2d El contexto Graphics2D.
+     * @param x1 Coordenada X del inicio de la flecha.
+     * @param y1 Coordenada Y del inicio de la flecha.
+     * @param x2 Coordenada X del final de la flecha.
+     * @param y2 Coordenada Y del final de la flecha.
+     */
+    public static void dibujarFlecha(Graphics2D g2d, int x1, int y1, int x2, int y2) {
+        g2d.drawLine(x1, y1, x2, y2);
+        
+        // Dibujar la punta de la flecha
+        int ARR_SIZE = 8;
+        Polygon arrowHead = new Polygon();
+        
+        // Calcular el ángulo de la línea
+        double angle = Math.atan2(y2 - y1, x2 - x1);
+        
+        // Calcular los puntos de la punta de la flecha
+        arrowHead.addPoint(x2, y2);
+        arrowHead.addPoint(x2 - (int) (ARR_SIZE * Math.cos(angle - Math.toRadians(30))),
+                           y2 - (int) (ARR_SIZE * Math.sin(angle - Math.toRadians(30))));
+        arrowHead.addPoint(x2 - (int) (ARR_SIZE * Math.cos(angle + Math.toRadians(30))),
+                           y2 - (int) (ARR_SIZE * Math.sin(angle + Math.toRadians(30))));
+        g2d.fill(arrowHead);
     }
 }

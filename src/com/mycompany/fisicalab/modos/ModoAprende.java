@@ -3,8 +3,8 @@ package com.mycompany.fisicalab.modos;
 import com.mycompany.fisicalab.core.SimuladorFrame;
 import com.mycompany.fisicalab.ui.*;
 import com.mycompany.fisicalab.utils.UIHelper;
-import javax.swing.*;
 import java.awt.*;
+import javax.swing.*;
 
 /**
  * Modo Aprende - Exploración libre con tutoriales
@@ -55,12 +55,12 @@ public class ModoAprende extends JPanel {
         
         // Tarjeta MRU
         JPanel tarjetaMRU = crearTarjetaSimulacion(
-            "🏃 MRU",
-            "Movimiento Rectilíneo Uniforme",
+            "MRU",
+            "Movimiento Rectilineo Uniforme",
             new String[]{
                 "• Velocidad constante",
                 "• Sin aceleración",
-                "• Fórmula: x = x₀ + v·t"
+            "• Formula: x = x0 + v*t"
             },
             UIHelper.COLOR_PRIMARIO,
             "MRU"
@@ -68,12 +68,12 @@ public class ModoAprende extends JPanel {
         
         // Tarjeta Caída Libre
         JPanel tarjetaCaida = crearTarjetaSimulacion(
-            "🪂 Caída Libre",
+            "Caida Libre",
             "Movimiento bajo gravedad",
             new String[]{
-                "• Aceleración constante (g)",
+            "• Aceleracion constante (g)",
                 "• Energía potencial y cinética",
-                "• Fórmula: y = h₀ + v₀·t - ½g·t²"
+            "• Formula: y = h0 + v0*t - 1/2g*t^2"
             },
             UIHelper.COLOR_SECUNDARIO,
             "CAIDA_LIBRE"
@@ -81,11 +81,11 @@ public class ModoAprende extends JPanel {
         
         // Tarjeta Tiro Parabólico
         JPanel tarjetaTiro = crearTarjetaSimulacion(
-            "🎯 Tiro Parabólico",
+            "Tiro Parabolico",
             "Movimiento en dos dimensiones",
             new String[]{
-                "• Componentes vₓ y vᵧ",
-                "• Trayectoria parabólica",
+            "• Componentes vx y vy",
+            "• Trayectoria parabolica",
                 "• Alcance y altura máxima"
             },
             UIHelper.COLOR_EXITO,
@@ -116,11 +116,10 @@ public class ModoAprende extends JPanel {
         JPanel panelInferior = new JPanel(new FlowLayout(FlowLayout.LEFT, 15, 10));
         panelInferior.setOpaque(false);
         
-        JButton btnVolver = UIHelper.crearBotonRedondeado("← Volver", UIHelper.COLOR_PELIGRO);
+        JButton btnVolver = UIHelper.crearBotonRedondeado("Volver", UIHelper.COLOR_PELIGRO);
         btnVolver.setPreferredSize(new Dimension(140, 45));
         btnVolver.addActionListener(e -> {
-            SeleccionModo seleccion = new SeleccionModo(frame);
-            frame.mostrarSimulacion(seleccion);
+            frame.mostrarMenuPrincipal(); // Volver directamente al menú principal
         });
         
         panelInferior.add(btnVolver);
