@@ -1,24 +1,22 @@
-<div align="center">
-
 # 🧪 **FisicaLAB**
-### *Simulador Interactivo de Física en Java (Alpha 3.0)*
+### *Simulador Interactivo de Física en Java (1.6.1)*
 
 <h1 align="center">
   <a href="https://github.com/XNasaX/FisicaLAB">
-    <img src="https://readme-typing-svg.herokuapp.com?font=Fira+Code&duration=2500&pause=700&color=3AE0D8&center=true&vCenter=true&width=435&lines=FisicaLAB+3.0;Simulador+Interactivo+de+Física;Aprende+Jugando%2C+Juega+Aprendiendo!">
+    <img src="https://readme-typing-svg.herokuapp.com?font=Fira+Code&duration=2500&pause=700&color=3AE0D8&center=true&vCenter=true&width=435&lines=FisicaLAB+1.6.0;Simulador+Interactivo+de+Física;Aprende+Jugando%2C+Juega+Aprendiendo!">
   </a>
 </h1>
 
 <p align="center">
   <a href="https://www.java.com"><img src="https://img.shields.io/badge/Java-ED8B00?style=for-the-badge&logo=openjdk&logoColor=white"></a>
   <a href="https://opensource.org/licenses/MIT"><img src="https://img.shields.io/badge/License-MIT-yellow?style=for-the-badge"></a>
-  <img src="https://img.shields.io/badge/Estado-Alpha_3.0-red?style=for-the-badge">
+  <img src="https://img.shields.io/badge/LANZADO-1.6.0-red?style=for-the-badge">
 </p>
 
 
 ---
 
-<img width="1600" height="896" alt="PRE ALPHA (1)" src="https://github.com/user-attachments/assets/26c4b4ff-845a-4229-a5c3-319b294d4ce3" />
+<img width="5000" height="2800" alt="FISICA LAB" src="https://github.com/user-attachments/assets/a737c968-ad79-4b13-b3e9-03880920d86d" />
 
 </div>
 
@@ -26,7 +24,7 @@
 ## 📝 Descripción
 **FisicaLAB** es un simulador educativo desarrollado en Java para visualizar y experimentar con fenómenos de cinemática de forma interactiva. Ideal para alumnos, docentes y autodidactas.
 
-¡Bienvenido a la **versión 3.0 Alpha**! Esta gran actualización introduce el **Modo Juego**, un completo **sistema de misiones** con 15 desafíos, puntuación de XP y estrellas, junto con un **Modo Aprende** para la exploración libre.
+¡Bienvenido a la **versión 1.6.0**! Esta gran actualización REMAKE.
 
 > 💡 “Aprender física nunca había sido tan divertido”.
 
@@ -46,8 +44,8 @@
 Sigue estos pasos para ejecutar el proyecto en tu máquina local.
 
 ### Requisitos
-- **JDK** 8 (o superior).
-- **NetBeans IDE** 12 (o superior).
+- **JDK** 27 (o superior).
+- **NetBeans IDE** 27 (o superior).
 
 ### Pasos
 1.  Clona este repositorio:
@@ -66,73 +64,75 @@ Sigue estos pasos para ejecutar el proyecto en tu máquina local.
 
 ---
 
-## 🎮 Novedades v3.0: ¡Modo Juego!
-La actualización 3.0 se centra en la gamificación del aprendizaje. Ahora puedes elegir entre dos modos en el menú principal:
-
-### 1. 🎮 Modo Juego
-¡Pon a prueba tus conocimientos! Este modo te reta a completar 15 misiones de dificultad creciente.
-- **Sistema de Misiones:** 5 misiones para MRU, 5 para Caída Libre y 5 para Tiro Parabólico.
-- **Puntuación y Estrellas:** Gana XP y hasta 3 estrellas (⭐⭐⭐) por misión según tu precisión.
-- **Dificultad Progresiva:** Las misiones van desde "Fácil" (😊) hasta "Muy Difícil" (😱).
-- **Interfaz de Misión:** Cada misión tiene una pantalla de información detallada con objetivos, restricciones y puntuación.
-
-Pon a prueba tus conocimientos con 15 misiones únicas:
-- **5 misiones de MRU**
-- **5 misiones de Caída Libre**
-- **5 misiones de Tiro Parabólico**
-
-Características:
-- **Sistema de puntuación XP y estrellas (⭐)**
-- **Dificultad progresiva: Fácil → Muy Difícil**
-- **Pantalla de misión: Objetivos, condiciones y recompensas**
-
-### 2. 📚 Modo Aprende
-El modo clásico de simulación libre. Perfecto para experimentar sin límites.
-- **Acceso Directo:** Entra a cualquier simulación (MRU, Caída Libre, Tiro Parabólico).
-- **Laboratorio Abierto:** Juega con todos los parámetros como gravedad, velocidad, masa, etc.
-- **Fórmulas Clave:** Revisa las fórmulas principales antes de entrar.
-
----
-
-## ⌨️ Controles de Teclado
-Controla las simulaciones directamente desde tu teclado:
-
-| Tecla | Acción Global |
-| :--- | :--- |
-| **[ ESPACIO ]** | Iniciar / Pausar la simulación |
-| **[ R ]** | Reiniciar la simulación |
-| **[ V ]** | Mostrar / Ocultar vectores (en MRU y Caída Libre) |
-
-| Tecla | Caída Libre | Tiro Parabólico |
-| :--- | :--- | :--- |
-| **[ E ]** | Mostrar / Ocultar panel de Energía | - |
-| **[ ↑ ] / [ ↓ ]** | - | Ajustar Ángulo (+/- 1°) |
-| **[ ← ] / [ → ]** | - | Ajustar Velocidad (+/- 1 m/s) |
-
----
-
-## 📊 Características Implementadas (v3.0)
-- ✅ **NUEVO: Sistema de Modos (Juego/Aprende)**: Elige entre desafíos (Modo Juego) o exploración libre (Modo Aprende).
-- ✅ **NUEVO: Sistema de 15 Misiones**: Supera 5 desafíos únicos para MRU, Caída Libre y Tiro Parabólico.
-- ✅ **NUEVO: Evaluación de Misiones**: Gana puntos XP y de 1 a 3 estrellas según tu precisión y desempeño.
-- ✅ **NUEVO: Interfaz de Misión**: Paneles detallados que explican el objetivo, las restricciones y la recompensa de cada misión.
-- ✅ **Motor de simulación física** en tiempo real.
-- ✅ **Parámetros Avanzados:** Ajusta la gravedad, masa, velocidad de simulación, y más.
-- ✅ **Sistema de Energía (Ep/Ek)**: Visualiza la conservación de la energía en la simulación de Caída Libre.
-- ✅ **Controles de Teclado** (KeyBindings) para una simulación interactiva.
-- ✅ **Modo Pantalla Completa** y ventana redimensionable.
-- ✅ **Interfaz gráfica moderna** y limpia con componentes Swing personalizados.
-
----
-
-## 🚧 Roadmap (Próximos Pasos)
-- 🔷 **Gráficas dinámicas** en tiempo real (posición vs. tiempo, etc.).
-- 🔷 **Simulación MRUV** (Movimiento Rectilíneo Uniformemente Variado).
-- 🔷 **Tutoriales Interactivos** (activar la tarjeta "Próximamente" del Modo Aprende).
-- 🔷 **Exportación de datos** de simulación a CSV.
-- 🔷 **Física más avanzada:** Resistencia del aire y Colisiones.
-- 🔷 **Presets de Planetas** (para gravedad).
-
+                + "HISTORIAL DE VERSIONES - SIMULADOR DE FISICA\n"
+                + "Version actual: 1.6.0\n"
+                + "================================================\n\n"
+                + "Version 0.1.0 - Primer prototipo\n"
+                + "NUEVO:\n"
+                + "- Se creo la estructura inicial del proyecto en Swing.\n"
+                + "- Se agrego el primer simulador de Tiro Parabolico basico.\n"
+                + "ARREGLADO:\n"
+                + "- Ajustes iniciales de ventana y cierre de aplicacion.\n\n"
+                + "Version 0.4.0 - Simuladores de movimiento\n"
+                + "NUEVO:\n"
+                + "- Se agregaron MRU y MRUV.\n"
+                + "- Se implementaron controles de velocidad, distancia y aceleracion.\n"
+                + "ARREGLADO:\n"
+                + "- Correcciones en etiquetas de tiempo y distancia.\n"
+                + "- Mejoras menores en el repintado de animaciones.\n\n"
+                + "Version 0.7.0 - Menu principal\n"
+                + "NUEVO:\n"
+                + "- Se agrego el MenuPrincipal con botones para abrir modulos.\n"
+                + "- Se incorporo fondo animado con particulas.\n"
+                + "ARREGLADO:\n"
+                + "- Se corrigio el retorno desde simuladores hacia el menu.\n"
+                + "- Se evito que ventanas secundarias cerraran toda la aplicacion.\n\n"
+                + "Version 1.0.0 - Caida Libre y experiencia visual\n"
+                + "NUEVO:\n"
+                + "- Se agrego el modulo de Caida Libre.\n"
+                + "- Se agregaron objetos por peso, rebotes y datos de energia.\n"
+                + "ARREGLADO:\n"
+                + "- Ajustes de validacion para entradas negativas o vacias.\n"
+                + "- Correccion de estados al finalizar simulaciones.\n\n"
+                + "Version 1.2.0 - Pantalla completa\n"
+                + "NUEVO:\n"
+                + "- Menu y simuladores se abren maximizados.\n"
+                + "- Se agregaron paneles de resultados y graficas.\n"
+                + "ARREGLADO:\n"
+                + "- Reorganizacion de controles para evitar espacios vacios.\n"
+                + "- Limite de puntos en rastros visuales para evitar lentitud.\n\n"
+                + "Version 1.4.0 - Rediseño del menu\n"
+                + "NUEVO:\n"
+                + "- Se reemplazo el titulo de texto por imagen animada.\n"
+                + "- Se agrego logo centrado y boton de enlace web animado.\n"
+                + "ARREGLADO:\n"
+                + "- Correccion del orden visual del menu.\n"
+                + "- Ajuste de botones para no chocar con imagenes grandes.\n\n"
+                + "Version 1.5.0 - CalculusGrapher360\n"
+                + "NUEVO:\n"
+                + "- Se agrego CalculusGrapher360 con arquitectura MVC.\n"
+                + "- Se implemento plano cartesiano con zoom, arrastre y puntos.\n"
+                + "- Se agrego parser para polinomios, sin(x), cos(x) y tan(x).\n"
+                + "ARREGLADO:\n"
+                + "- Se agrego boton VOLVER para regresar al menu principal.\n\n"
+                + "Version 1.5.2 - Historial interactivo\n"
+                + "NUEVO:\n"
+                + "- Se agrego etiqueta de version en el menu principal.\n"
+                + "- Se agrego esta hoja de historial al hacer click en la version.\n"
+                + "ARREGLADO:\n"
+                + "- Mejoras de organizacion visual en el menu inferior.\n"
+                + "- Ajuste de textos informativos para evitar desbordes.\n\n"
+                + "Version 1.6.0 - Version actual\n"
+                + "NUEVO:\n"
+                + "- Se agrego el minijuego Ocio JuegaAprendiendo tipo Angry Birds simplificado.\n"
+                + "- Se agregaron bloques de hielo, madera, piedra y obsidiana con durabilidad.\n"
+                + "- Se implemento record persistente del minijuego usando archivo de texto.\n"
+                + "- Se agrego el Simulador de Pendulo Simple con fisica RK4 amortiguada.\n"
+                + "- Se agregaron controles de longitud, masa, friccion, gravedad y angulo inicial.\n"
+                + "ARREGLADO:\n"
+                + "- Se reorganizo el menu para incluir nuevos accesos sin tapar el boton salir.\n"
+                + "- Se agregaron botones VOLVER en modulos nuevos para regresar al menu principal.\n"
+                + "- Se valido la compilacion general despues de integrar los nuevos modulos.\n";
 ---
 
 ## 📜 Licencia
@@ -144,6 +144,7 @@ Este proyecto está distribuido bajo la Licencia MIT. Consulta el archivo `LICEN
 
 <h3>✨ Desarrollado por <strong>NAZA_DR</strong></h3>
 <h4>🧠 XNasaX DESIGN — Innovación y Física Interactiva</h4>
+<h5> RICARDO FELIX DESING </h5>
 
 <p>
   <a href="https://github.com/XNasaX" target="_blank">
